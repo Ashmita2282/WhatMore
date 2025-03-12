@@ -107,8 +107,7 @@ const createTables = async () => {
         id SERIAL PRIMARY KEY,
         name VARCHAR(150) NOT NULL,
         email VARCHAR(100) UNIQUE NOT NULL,
-        phone VARCHAR(15),
-        address TEXT,
+        password TEXT NOT NULL,
         status VARCHAR(20) DEFAULT 'active',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
@@ -141,6 +140,38 @@ const createTables = async () => {
       );
     `);
     console.log("✅ Client_plans table created successfully");
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS client_details (
+        client_id INT REFERENCES clients(id) ON DELETE CASCADE,
+        username VARCHAR(255),
+        facebook_page_id VARCHAR(255),
+        instagram_business_id VARCHAR(255),
+        facebook_page_access_token VARCHAR(500),
+        shopify_store_name VARCHAR(255),
+        shopify_store_url TEXT,
+        shopify_access_token VARCHAR(255),
+        shopify_api_key VARCHAR(255),
+        shopify_shared_secret VARCHAR(500),
+        woocommerce_store_name VARCHAR(255),
+        woocommerce_store_url TEXT,
+        woocommerce_consumer_key VARCHAR(255),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+    console.log("✅ Client_details table created successfully");
+
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS video_details (
+        video_id BIGINT PRIMARY KEY,  
+        client_id INT,
+        likes_count INT,
+        caption TEXT,
+        media_url TEXT,
+        CONSTRAINT fk_client FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE
+      );
+    `);
+    console.log("✅ video_details table created successfully");
 
     // Create user_subscriptions table
     await pool.query(`

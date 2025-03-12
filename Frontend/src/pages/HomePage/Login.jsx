@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 function Login() {
   const [formData, setFormData] = useState({
+    role: "",
     email: "",
     password: "",
   });
@@ -20,8 +21,12 @@ function Login() {
     try {
       const response = await axios.post(
         "http://localhost:5000/api/auth/login",
-        formData
+        formData,
+        {
+          withCredentials: true, // Move inside the config object
+        }
       );
+      
 
       localStorage.setItem("token", response.data.token);
       setMessage(response.data.message);
@@ -30,12 +35,12 @@ function Login() {
 
       // Check role and redirect accordingly
       const userRole = response.data.user.role;
+      console.log(`login.jsx role: ${userRole}`);
       if (userRole === "superadmin") {
-        navigate("/superadmin-dashboard");
-      } else if (userRole === "admin") {
-        navigate("/admin-dashboard");
-      } else if (userRole === "customer") {
-        navigate("/customer-dashboard");
+        navigate("/superadmin");
+      }
+      else if (userRole === "client") {
+        navigate("http://localhost:5173/client");
       }
     } catch (error) {
       console.error("Login error", error);
@@ -60,6 +65,20 @@ function Login() {
           </div>
         )}
         <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-gray-700">Role</label>
+            <select
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              className="w-full border border-gray-300 p-2 rounded"
+            >
+              <option value="superadmin">Super Admin</option>
+              <option value="admin">Admin</option>
+              <option value="customer">Customer</option>
+              <option value="client">Client</option>
+            </select>
+          </div>
           <div>
             <label className="block text-gray-700">Email</label>
             <input

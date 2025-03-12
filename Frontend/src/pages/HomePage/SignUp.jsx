@@ -95,6 +95,7 @@ function SignUp() {
               <option value="superadmin">Super Admin</option>
               <option value="admin">Admin</option>
               <option value="customer">Customer</option>
+              <option value="client">Client</option>
             </select>
           </div>
           <button

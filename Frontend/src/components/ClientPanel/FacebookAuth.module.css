@@ -1,0 +1,433 @@
+/* Container styling */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* Styling for each div */
+.stepDiv {
+  width: 40%;
+  height: 80%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 20px;
+  border: 2px solid rgb(246, 244, 248);
+  border-radius: 4%;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  transition: background-color 0.3s ease;
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-align: center;
+}
+
+.stepDiv h2 {
+  font-size: 110%;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.stepDiv p {
+  font-size: 80%;
+  font-weight: 400;
+  color: #85898b;
+  text-align: left;
+}
+
+/* Button styling */
+button {
+  padding: 10px 15px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Next button styling */
+.nextBtn {
+  background-color: #3498db;
+  color: white;
+  align-self: center;
+  position: absolute;
+  bottom: 5%;
+  right: 10%;
+}
+
+.nextBtn:hover {
+  background-color: #217dbb;
+}
+
+.nextBtn:disabled {
+  background-color: #b0bec5;
+  cursor: not-allowed;
+}
+
+/* Back button styling */
+.backBtn {
+  background-color: #e74c3c;
+  color: white;
+  align-self: center;
+  position: absolute;
+  bottom: 5%;
+  left: 10%;
+}
+
+.backBtn:hover {
+  background-color: #c0392b;
+}
+
+.checkbox_div {
+  display: flex;
+  flex-direction: column;
+  /* border: 2px solid rgb(109, 27, 216); */
+  overflow-y: auto;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  position: absolute;
+  top: 40%;
+  left: 2.5%;
+  width: 95%;
+  height: 40%;
+  z-index: 4;
+  box-sizing: border-box;
+  box-shadow: 0 4px 8px 0 rgba(189, 187, 187, 0.2), rgba(189, 187, 187, 0.2);
+
+
+}
+
+.checkbox_div p {
+  font-size: 90%;
+  font-weight: 500;
+  margin-bottom: 5%;
+  color: black;
+}
+
+.checkbox_outer_div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* border: 2px solid rgb(216, 46, 27); */
+  padding: 0.5%;
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 100%;
+  border-radius: 5px;
+
+}
+
+.checkbox_outer_div:hover {
+  background-color: #f0f0f0;
+}
+
+.checkbox_inner_div {
+  width: 33px;
+  height: 33px;
+  background-color: rgb(243, 162, 153);
+  border-radius: 10%;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.checkbox_div input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+}
+
+.checkbox_div label {
+  font-size: 83%;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  text-align: left;
+  margin-left: 5px;
+
+}
+
+
+.permissionDiv {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  padding: 2%;
+}
+
+.permissionDiv span {
+  font-size: 80%;
+  font-weight: bold;
+  min-width: 180px;
+  text-align: left;
+}
+
+.permissionDiv p {
+  font-size: 65%;
+  margin: 0;
+  flex: 1;
+  text-align: left;
+}
+
+
+.optionsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 10%;
+}
+
+.optionCard {
+  background: #f8f9fa;
+  /* padding: 15px; */
+  border-radius: 10px;
+  cursor: pointer;
+  width: 120px;
+  text-align: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.optionCard:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.optionCard.selected {
+  border: 2px solid #007bff;
+  background: rgba(0, 123, 255, 0.1);
+  animation: pulse 1s infinite;
+}
+
+.optionLogo {
+  width: 50px;
+  height: 50px;
+  margin-top: 20px;
+  /* border: 2px solid salmon; */
+  transition: transform 0.3s ease-in-out;
+}
+
+.optionCard p {
+  width: 100%;
+  text-align: center;
+  color: #5a5959;
+  /* border: 2px solid salmon; */
+  box-sizing: border-box;
+}
+
+.info_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px 30px;
+  max-height: 90%;
+  overflow-y: auto;
+  /* border: 2px solid red; */
+}
+
+.info_box {
+  width: 100%;
+  /* border: 2px solid #14c563; */
+  text-align: left;
+}
+
+.info_box h9 {
+  font-size: 85%;
+  font-weight: 550;
+  margin-bottom: 0px; 
+  line-height: 1.5;
+  display: block; 
+  color: #383838;
+
+}
+
+.info_box p {
+  font-size: 70%;
+  font-weight: 500;
+  color: #858383;
+  margin-top: 0px; 
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.info_box hr {
+  border: none;
+  height: 1px;
+  background-color: rgba(201, 200, 200, 0.5); /* Lighter and semi-transparent */
+  margin-top: 6px;
+  box-shadow: 0px 0px 3px rgba(221, 221, 221, 0.8); /* Adds a blur effect */
+}
+
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+/* Responsive Styles */
+@media screen and (max-width: 1024px) {
+  .stepDiv {
+    width: 80%;
+    height: 60%;
+    padding: 15px;
+  }
+
+  .stepDiv h2 {
+    font-size: 120%;
+  }
+  
+  .checkbox_div {
+    top: 25%;
+  }
+
+  .info_container{
+     padding-top: 8%;
+  }
+
+}
+
+@media screen and (max-width: 1024px) and (max-height: 600px) {
+
+  .stepDiv {
+    width: 80%;
+    height: 80%;
+    padding: 15px;
+  }
+
+  .checkbox_div {
+    top: 37%;
+  }
+
+}
+
+@media screen and (max-width: 540px) {
+  .stepDiv {
+    width: 90%;
+    padding: 10px;
+  }
+
+  .stepDiv h2 {
+    font-size: 110%;
+  }
+
+  .stepDiv p {
+    font-size: 70%;
+    padding: 0 5px;
+  }
+
+  .checkbox_div {
+    top: 35%;
+  }
+
+  .optionCard {
+    width: 100px;
+  }
+
+  .info_container{
+    padding: 5%;
+  }
+
+  .info_box h9 {
+    font-size: 70%;
+    font-weight: 500;
+    line-height: 1.5;
+    color: black;
+    padding-left: 1%;
+  }
+  
+  .info_box p {
+    font-size: 65%;
+    font-weight: 500;
+  }
+
+}
+
+
+@media screen and (max-width: 390px) {
+  .stepDiv {
+    width: 90%;
+    padding: 10px;
+  }
+
+  .stepDiv h2 {
+    font-size: 95%;
+  }
+
+  .stepDiv p {
+    font-size: 70%;
+    padding: 0 5px;
+  }
+
+  button {
+    padding: 8px 13px;
+    margin: 5px;
+    font-size: 16px;
+  }
+
+
+  .checkbox_div {
+    top: 44%;
+    padding: 0 15px;
+  }
+
+  .optionsContainer {
+    margin-top: 10%;
+  }
+
+  .info_container{
+    padding: 2%;
+  }
+
+  .info_box h9 {
+    font-size: 68%;
+    font-weight: 500;
+    line-height: 1.5;
+    color: black;
+  }
+  
+  .info_box p {
+    font-size: 57%;
+    font-weight: 500;
+  }
+
+
+}

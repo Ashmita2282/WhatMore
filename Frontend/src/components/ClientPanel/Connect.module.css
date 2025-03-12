@@ -1,0 +1,129 @@
+* {
+  box-sizing: border-box;
+  font-family: "Poppins";
+}
+
+
+.outside_container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* border: 2px solid salmon; */
+}
+
+.container {
+  width: 40%;
+  /* height: 45%; */
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  padding: 20px;
+  border: 2px solid rgb(246, 244, 248);
+  border-radius: 4%;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  transition: background-color 0.3s ease;
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-align: center;
+  /* border: 2px solid greenyellow; */
+
+}
+
+.container h2 {
+  font-size: 140%;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.container p {
+  font-size: 85%;
+  font-weight: 400;
+  font-size: 80%;
+  font-weight: 400;
+  color: #85898b;
+}
+
+.inner_container{
+
+  /* border: 2px solid greenyellow; */
+
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn {
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.btn:first-child {
+  background-color: #1877F2;
+  color: white;
+}
+
+.btn:last-child {
+  background-color: #40db64;
+  color: white;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+
+@media screen and (max-width: 1000px) {
+  .container {
+    width: 70%;
+    padding: 15px;
+  }
+  
+  .container h2 {
+    font-size: 1.2rem;
+  }
+
+  .container p {
+    font-size: 0.85rem;
+  }
+
+  .btn {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .container {
+    width: 80%;
+    height: 60;
+    padding: 10px;
+  }
+
+  .container h2 {
+    font-size: 1rem;
+  }
+
+  .container p {
+    font-size: 0.8rem;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+}

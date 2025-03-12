@@ -84,6 +84,11 @@ const {
   findSuperAdminByEmail,
 } = require("../models/superadminModel");
 
+const{
+  createClient,
+  findClientByEmail,
+} = require("../models/clientModel");
+
 // Signup Controller for Superadmin (or admin, based on role)
 const signup = async (req, res) => {
   try {
@@ -99,8 +104,16 @@ const signup = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create the user
-    const newUser = await createSuperAdmin(name, email, hashedPassword, role);
+    let newUser; 
+
+    // Create the user based on role
+    if (role === "superadmin") {
+      newUser = await createSuperAdmin(name, email, hashedPassword, role);
+    } else if (role === "client") {
+      newUser = await createClient(name, email, hashedPassword, role);
+    } else {
+      return res.status(400).json({ message: "Invalid role" });
+    }
 
     res.status(201).json({
       message: "Signup successful",
@@ -115,10 +128,21 @@ const signup = async (req, res) => {
 // Login Controller
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { role, email, password } = req.body;
+
+    console.log(req.body);
 
     // Find user
-    const user = await findSuperAdminByEmail(email);
+    let user = "";
+
+    if (role === "superadmin") {
+      user = await findSuperAdminByEmail(email);
+    } else if (role === "client") {
+      user = await findClientByEmail(email);
+    } else {
+      return res.status(400).json({ message: "Invalid role" });
+    }
+
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
@@ -131,10 +155,13 @@ const login = async (req, res) => {
 
     // Generate token
     const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role },
+      { id: user.id, name:user.name, email: user.email, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
+
+     // Set token in cookies
+    res.cookie("token", token, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000 });
 
     res.json({
       message: "Login successful",
