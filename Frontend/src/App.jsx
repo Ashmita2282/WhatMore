@@ -119,7 +119,6 @@ const App = () => {
             videos={videos}
           />
         )}
-        <DashboardContent videos={videos} handleVideoClick={handleVideoClick} />
     </BrowserRouter>
 
   );

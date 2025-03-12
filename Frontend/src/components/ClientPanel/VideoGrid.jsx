@@ -21,7 +21,7 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
     useEffect(() => {
         const fetchAllProducts = async () => {
             const endpoint = "https://gristiptest.myshopify.com/api/2025-01/graphql.json";
-            const accessToken = "7bcea6ccac70730be7c32d0dc91e5cd3";
+            const accessToken = process.env.SHOPIFY_ACCESS_TOKEN; 
             let allProducts = [];
             let hasNextPage = true;
             let cursor = null;
