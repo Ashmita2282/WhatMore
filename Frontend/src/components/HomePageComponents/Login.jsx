@@ -8,7 +8,7 @@ const Login = () => {
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
         {/* Logo */}
         <div className="flex justify-center">
-          <img src="/logo.png" alt="Whatmore" className="w-12" />
+          <img src="/logo.png" alt="VidsCommerce" className="w-12" />
         </div>
         
         <h2 className="text-2xl font-semibold text-center mt-4">

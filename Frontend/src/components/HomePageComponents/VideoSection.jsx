@@ -13,12 +13,12 @@ const VideoSection = () => {
   }, []);
 
   return (
-    <div className=" flex flex-col justify-center items-center mt-12">
-      <h1 className="w-[70%] text-center text-[50px] font-normal leading-[64px] tracking-[-1.12px]">
-        {" "}
-        Effortless, high-quality videos for any platform with{" "}
-        <span className="font-bold">Whatmore Studio</span>
-      </h1>
+    <div className=" flex flex-col justify-center items-center mt-14 mb-0">
+      <h1 className="w-[90%] md:w-[70%] text-center text-[clamp(32px,5vw,50px)] font-normal leading-[1.2] tracking-[-0.5px]">
+  Effortless, high-quality videos for any platform with{" "}
+  <span className="font-bold">VidsCommerce Studio</span>
+</h1>
+
 
       <div className="flex justify-center md:w-full">
         <div className="carousel w-full">

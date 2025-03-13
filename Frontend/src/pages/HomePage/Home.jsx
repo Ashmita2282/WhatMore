@@ -2,11 +2,11 @@ import React from "react";
 import Header from "../../components/HomePageComponents/Header";
 import HeroSection from "../../components/HomePageComponents/HeroSection";
 import VideoSection from "../../components/HomePageComponents/VideoSection";
-import BlackSection from "../../components/HomePageComponents/BlackSection";
+// import BlackSection from "../../components/HomePageComponents/BlackSection";
 import FAQs from "../../components/HomePageComponents/FAQs";
 import Footer from "../../components/HomePageComponents/Footer";
 import ConvertSection from "../../components/HomePageComponents/ConvertSection";
-import ManageSection from "../../components/HomePageComponents/ManageSection";
+// import ManageSection from "../../components/HomePageComponents/ManageSection";
 
 function Home() {
   return (
@@ -15,9 +15,9 @@ function Home() {
       <div className="pt-[80px]">
         <HeroSection />
         <VideoSection />
-        <BlackSection />
+        {/* <BlackSection /> */}
         <ConvertSection />
-        <ManageSection />
+        {/* <ManageSection /> */}
         <FAQs />
         <Footer />
       </div>
