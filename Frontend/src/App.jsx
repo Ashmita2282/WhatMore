@@ -6,18 +6,18 @@ import Home from "./pages/HomePage/Home";
 import Login from "./pages/HomePage/Login";
 import SignUp from "./pages/HomePage/SignUp";
 import ClientHome from "./pages/Client/ClientHome";
-import ClientPage from "./pages/Client/ClientPage";
+import DashboardLayoutBranding  from "./pages/Client/ClientPage";
 import ManualShopifyConnect from "./components/ClientPanel/ManualShopifyConnect";
 import SuperAdminHome from "./pages/SuperAdmin/SuperAdminHome";
 import FacebookAuth from "./components/ClientPanel/FacebookAuth";
 import VideoGrid from "./components/ClientPanel/VideoGrid";
 import Grid from "./components/ClientPanel/Grid";
-import DashboardContent from "./components/ClientPanel/DashboardContent";
 
 const App = () => {
 
   const [videos, setVideos] = useState([]);
   const [currentPost, setCurrentPost] = useState(null);
+  const [count, setCount] = useState(0);
   const httpsUrlRegex = /(https?:\/\/[^\s]+)/g;
   // const location = useLocation();
 
@@ -92,6 +92,8 @@ const App = () => {
 
   const handleVideoClick = (video) => {
     setCurrentPost(video);
+    
+    setCount(count + 1);
   };
 
   const closeSlider = () => {
@@ -106,7 +108,7 @@ const App = () => {
       <Route path="/signup" element={<SignUp/>} />
       <Route path="/login" element={<Login/>} />
       <Route path="/client" element={<ClientHome />} />
-      <Route path="/clientPage" element={<ClientPage />} />
+      <Route path="/clientPage" element={<DashboardLayoutBranding count={count} />} />
       <Route path="/videoGrid" element={<VideoGrid videos={videos} handleVideoClick={handleVideoClick} />} />
       <Route path="/facebook" element={<FacebookAuth />} />
       <Route path="/shopify" element={<ManualShopifyConnect />} />
@@ -119,7 +121,8 @@ const App = () => {
             videos={videos}
           />
         )}
-    </BrowserRouter>
+   
+   </BrowserRouter>
 
   );
 };

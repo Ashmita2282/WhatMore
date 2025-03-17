@@ -1,9 +1,12 @@
 import React from 'react'
+import Connect from './Connect'
+import FacebookAuth from './FacebookAuth'
 
 const DashboardContent = () => {
   return (
-    <div>DashboardContent</div>
-    
+    <>
+    <Connect/>
+    </>
   )
 }
 

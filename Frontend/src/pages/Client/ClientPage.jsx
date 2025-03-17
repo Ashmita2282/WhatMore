@@ -1,11 +1,15 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
-// import DashboardContent from '../../components/ClientPanel/DashboardContent';
+import DashboardContent from '../../components/ClientPanel/DashboardContent';
+import ReportsContent from '../../components/ClientPanel/ReportsContent';
+import ProfileContent from '../../components/ClientPanel/ProfileContent';
 import Typography from '@mui/material/Typography';
 import { createTheme } from '@mui/material/styles';
+
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import BarChartIcon from '@mui/icons-material/BarChart';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';// import StoreIcon from '@mui/icons-material/Store';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { useDemoRouter } from '@toolpad/core/internal';
@@ -14,6 +18,9 @@ import { useDemoRouter } from '@toolpad/core/internal';
 const NAVIGATION = [
   { segment: 'dashboard', title: 'Dashboard', icon: <DashboardIcon /> },
   { segment: 'reports', title: 'Reports', icon: <BarChartIcon /> },
+
+    { segment: "profile", title: "Profile", icon: <AccountCircleIcon />, position: "bottom" },
+    { segment: "store-id", title: "Store ID: 123456", position: "bottom", isStatic: true }
 ];
 
 // Theme configuration
@@ -24,32 +31,33 @@ const demoTheme = createTheme({
 });
 
 // Dashboard Content Component
-function DashboardContent() {
-  return (
-    <Box sx={{ py: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-      <Typography variant="h5">Dashboard</Typography>
-      <Typography variant="body1">This is the dashboard page.</Typography>
-    </Box>
-  );
-}
+// function DashboardContent() {
+//   return (
+//     <Box sx={{ py: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+//       <Typography variant="h5">Dashboard</Typography>
+//       <Typography variant="body1">This is the dashboard page.</Typography>
+//     </Box>
+//   );
+// }
 
-// Reports Content Component
-function ReportsContent() {
-  return (
-    <Box sx={{ py: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-      <Typography variant="h5">Reports</Typography>
-      <Typography variant="body1">This is the reports page.</Typography>
-    </Box>
-  );
-}
+// function ReportsContent() {
+//   return (
+//     <Box sx={{ py: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+//       <Typography variant="h5">Reports</Typography>
+//       <Typography variant="body1">This is the reports page.</Typography>
+//     </Box>
+//   );
+// }
 
 // Component to handle page rendering based on selected navigation
-function DemoPageContent({ pathname }) {
+function DemoPageContent({ pathname , count}) {
   switch (pathname) {
     case '/dashboard':
       return <DashboardContent />;
     case '/reports':
-      return <ReportsContent />;
+      return <ReportsContent count={count} />;
+      case '/profile':
+        return <ProfileContent />;
     default:
       return <Typography variant="h5">Page Not Found</Typography>;
   }
@@ -58,7 +66,7 @@ function DemoPageContent({ pathname }) {
 DemoPageContent.propTypes = { pathname: PropTypes.string.isRequired };
 
 function DashboardLayoutBranding(props) {
-  const { window } = props;
+  const { window, count} = props;
   const router = useDemoRouter('/dashboard');
   const demoWindow = window !== undefined ? window() : undefined;
 
@@ -76,7 +84,7 @@ function DashboardLayoutBranding(props) {
     >
       <DashboardLayout>
         {/* Render content based on selected navigation */}
-        <DemoPageContent pathname={router.pathname} />
+        <DemoPageContent pathname={router.pathname} count={count}/>
       </DashboardLayout>
     </AppProvider>
   );
