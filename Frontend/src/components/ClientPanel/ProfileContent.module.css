@@ -1,0 +1,105 @@
+.profileContainer {
+    max-width: 400px;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    background: #f9f9f9;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    text-align: left;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px; /* Space below header */
+    position: relative;
+    padding-bottom: 5px; /* Space between text and underline */
+}
+
+.heading {
+    font-size: 24px;
+    font-weight: bold;
+    position: relative;
+}
+
+.heading::after {
+    content: "";
+    display: block;
+    width: 45%; /* Adjust to make it smaller */
+    height: 3px; /* Thickness of the underline */
+    background-color: #007bff; /* Color of the underline */
+    margin-top: 1px; /* Space between text and underline */
+}
+
+.editIcon {
+    cursor: pointer;
+    color: #007bff;
+    transition: color 0.3s ease;
+}
+
+.editIcon:hover {
+    color: #0056b3;
+}
+
+.label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+}
+
+.input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.button {
+    margin-top: 15px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.saveBtn {
+    background-color: #28a745;
+    color: white;
+    align-self: flex-start;
+    margin-left: 0;
+}
+
+.cancelBtn {
+    background-color: #dc3545;
+    color: white;
+    margin-left: 10px;
+}
+
+.profileText {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .profileContainer {
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    .heading {
+        font-size: 20px;
+    }
+
+    .input {
+        font-size: 14px;
+    }
+
+    .button {
+        font-size: 14px;
+        padding: 6px 10px;
+    }
+}

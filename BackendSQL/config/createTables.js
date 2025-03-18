@@ -108,6 +108,7 @@ const createTables = async () => {
         name VARCHAR(150) NOT NULL,
         email VARCHAR(100) UNIQUE NOT NULL,
         password TEXT NOT NULL,
+        role VARCHAR(50) DEFAULT 'client',
         status VARCHAR(20) DEFAULT 'active',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );

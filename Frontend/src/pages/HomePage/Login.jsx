@@ -35,12 +35,15 @@ function Login() {
 
       // Check role and redirect accordingly
       const userRole = response.data.user.role;
+      console.log("User object:", response.data.user);
+console.log(`Detected Role: ${userRole}`);
       console.log(`login.jsx role: ${userRole}`);
       if (userRole === "superadmin") {
         navigate("/superadmin");
       }
-      else if (userRole === "client") {
-        navigate("http://localhost:5173/client");
+      else if (userRole === "client") {  
+        console.log("Navigating to /clientPage");
+        navigate("/clientPage");  
       }
     } catch (error) {
       console.error("Login error", error);
