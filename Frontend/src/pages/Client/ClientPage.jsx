@@ -20,18 +20,9 @@ const NAVIGATION = [
   { segment: "store-id", title: "Store ID: 123456", position: "bottom", isStatic: true },
   { segment: 'dashboard', title: 'Dashboard', icon: <DashboardIcon /> },
   { segment: 'reports', title: 'Reports', icon: <BarChartIcon /> },
-    { segment: "profile", title: "Profile", icon: <AccountCircleIcon />, position: "bottom" },
-    { segment: "logout", title: "Logout", icon: <ExitToAppIcon />, position: "bottom", onClick: () => handleLogout() }
-  ];
-
-// Logout handler function
-const handleLogout = () => {
-  // Clear authentication tokens or session storage
-  localStorage.removeItem('authToken'); // Example: If storing a token
-  sessionStorage.clear();
-  window.location.href = '/login';
-};
-
+  { segment: "profile", title: "Profile", icon: <AccountCircleIcon />, position: "bottom" },
+  { segment: "login", title: "Log Out", icon: <ExitToAppIcon />, position: "bottom" }, // New Login Option
+];
 // Theme configuration
 const demoTheme = createTheme({
   cssVariables: { colorSchemeSelector: 'data-toolpad-color-scheme' },
@@ -59,7 +50,7 @@ const demoTheme = createTheme({
 // }
 
 // Component to handle page rendering based on selected navigation
-function DemoPageContent({ pathname , count}) {
+function DemoPageContent({ pathname, count }) {
   switch (pathname) {
     case '/dashboard':
       return <DashboardContent count={count} />;
@@ -67,10 +58,12 @@ function DemoPageContent({ pathname , count}) {
       return <ReportsContent count={count} />;
     case '/profile':
       return <ProfileContent count={count} />;
+    case '/login':
+      window.location.href = "/login"; // Redirect to login page
+      return null;
     default:
       return <Typography variant="h5">Page Not Found</Typography>;
-  }
-}
+  }}
 
 DemoPageContent.propTypes = {
   pathname: PropTypes.string.isRequired,
