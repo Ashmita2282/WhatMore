@@ -1,13 +1,13 @@
 const pool = require("../config/db");
 
 // Add a new client
-const createClient = async (name, email, phone, address) => {
+const createClient = async (name, email, password) => {
   const query = `
-    INSERT INTO clients (name, email, phone, address)
-    VALUES ($1, $2, $3, $4)
+    INSERT INTO clients (name, email, password)
+    VALUES ($1, $2, $3)
     RETURNING *
   `;
-  const values = [name, email, phone, address];
+  const values = [name, email, password];
   const { rows } = await pool.query(query, values);
   return rows[0];
 };
@@ -32,4 +32,26 @@ const getAllClients = async () => {
   return rows;
 };
 
-module.exports = { createClient, deleteClient, getAllClients };
+// Find superadmin (or admin) by email
+const findClientByEmail = async (email) => {
+  const query = `SELECT * FROM clients WHERE email = $1`;
+  const { rows } = await pool.query(query, [email]);
+  return rows[0];
+};
+
+// Get client profile by ID
+const getClientById = async (id) => {
+  const query = `SELECT id, name, email FROM clients WHERE id = $1`;
+  const { rows } = await pool.query(query, [id]);
+  return rows[0];
+};
+
+// Update client profile (only name for now)
+const updateClientById = async (id, name, email) => { 
+  const query = `UPDATE clients SET name = $1, email = $2 WHERE id = $3 RETURNING *`;
+  const { rows } = await pool.query(query, [name, email, id]);
+  return rows[0];
+};
+
+
+module.exports = { createClient, deleteClient, getAllClients, findClientByEmail, getClientById, updateClientById };
