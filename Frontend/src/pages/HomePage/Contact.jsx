@@ -7,8 +7,8 @@ const Contact = () => {
       <Header />
       
       {/* Ensuring the content is properly spaced below the header */}
-      <div className="flex flex-col items-center pt-24">
-        <h1 className="text-6xl font-bold text-black-600">
+      <div className="flex flex-col items-center pt-36">
+        <h1 className="text-5xl font-bold text-black-600">
         <span className="bg-gradient-to-r from-[#FD9BB8] to-[#CF9FF9] bg-clip-text text-transparent font-bold">
             Contact
           </span>{" "}

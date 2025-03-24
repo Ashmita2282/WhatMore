@@ -12,6 +12,11 @@ import SuperAdminHome from "./pages/SuperAdmin/SuperAdminHome";
 import FacebookAuth from "./components/ClientPanel/FacebookAuth";
 import VideoGrid from "./components/ClientPanel/VideoGrid";
 import Grid from "./components/ClientPanel/Grid";
+import SuperAdminPanel from "./components/SuperAdminPanel/SuperAdminPanel";
+import Contact from "./pages/HomePage/Contact";
+import TermsAndConditions from "./pages/HomePage/Tnc";
+import PrivacyPolicy from "./pages/HomePage/Privacy";
+import AboutUs from "./pages/HomePage/About";
 
 const App = () => {
 
@@ -102,27 +107,29 @@ const App = () => {
 
 
   return (
-    <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Home/>} />
-      <Route path="/signup" element={<SignUp/>} />
-      <Route path="/login" element={<Login/>} />
-      <Route path="/client" element={<ClientHome />} />
-      <Route path="/clientPage" element={<DashboardLayoutBranding count={count} />} />
-      <Route path="/videoGrid" element={<VideoGrid videos={videos} handleVideoClick={handleVideoClick} />} />
-      <Route path="/facebook" element={<FacebookAuth />} />
-      <Route path="/shopify" element={<ManualShopifyConnect />} />
-      <Route path="/superadmin" element={<SuperAdminHome />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/client" element={<ClientHome />} />
+        <Route path="/clientPage" element={<DashboardLayoutBranding count={count} />} />
+        <Route path="/videoGrid" element={<VideoGrid videos={videos} handleVideoClick={handleVideoClick} />} />
+        <Route path="/facebook" element={<FacebookAuth />} />
+        <Route path="/shopify" element={<ManualShopifyConnect />} />
+        <Route path="/superadmin" element={<SuperAdminHome />} />
+        <Route path="/superadmin-dashboard" element={<SuperAdminPanel />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/terms&conditions" element={<TermsAndConditions />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/about-us" element={<AboutUs />} />
+      </Routes>
+
+      {/* Conditional Rendering for Grid Component */}
       {currentPost && (
-          <Grid
-            closeSlider={closeSlider}
-            currentPost={currentPost}
-            videos={videos}
-          />
-        )}
-   
-   </BrowserRouter>
+        <Grid closeSlider={closeSlider} currentPost={currentPost} videos={videos} />
+      )}
+    </>
 
   );
 };

@@ -78,7 +78,7 @@ const Header = () => {
       document.removeEventListener("mousedown", handleClickOutsideMenu);
     };
   }, [isMenuOpen]);
-  
+
 
   return (
     <header className="fixed top-0 left-0 w-full z-50 flex flex-col items-center">
@@ -134,48 +134,66 @@ const Header = () => {
 
         {/* Slide-in menu for screens below 1024px */}
         <div
-    ref={menuRef} // Attach ref here
-    className={`absolute right-0 w-[250px] bg-white shadow-md overflow-hidden 
+          ref={menuRef} // Attach ref here
+          className={`absolute right-0 w-[250px] bg-white shadow-md overflow-hidden 
       transition-all duration-300 ease-in-out
       ${isMenuOpen ? "top-full opacity-100 max-h-[500px] p-4" : "opacity-0 max-h-0 p-0 pointer-events-none"}`}
-  >
-    <ul className="flex flex-col space-y-4 text-[#151414] text-sm font-semibold">
-      <li className="relative flex items-center" ref={dropdownRef}>
-        <div className="relative">
-          <button
-            className="transition px-2 py-1 flex items-center"
-            onClick={() => setIsOpenProduct((prev) => !prev)}
-          >
-            Products
-            <span className="pl-1 pt-1">
-              <svg width="8" height="7" viewBox="0 0 9 6" fill="none">
-                <path d="M7.70078 1.39961L4.50078 4.59961L1.30078 1.39961" fill="#151414"></path>
-                <path d="M7.70078 1.39961L4.50078 4.59961L1.30078 1.39961L7.70078 1.39961Z" stroke="#151414" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"></path>
-              </svg>
-            </span>
-          </button>
-          {isOpenProduct && <ProductMenuPopUp closeDropdown={() => setIsOpenProduct(false)} />}
-        </div>
-      </li>
-      <li className="relative flex items-center" ref={resourceDropdownRef}>
-        <button className="transition px-2 py-1 flex items-center"
-          onClick={() => setIsResourceOpen(!isResourceOpen)}
         >
-          Resources
-          <span className="pl-1 pt-1">
-            <svg width="8" height="7" viewBox="0 0 9 6" fill="none">
-              <path d="M7.70078 1.39961L4.50078 4.59961L1.30078 1.39961" fill="#151414"></path>
-              <path d="M7.70078 1.39961L4.50078 4.59961L1.30078 1.39961L7.70078 1.39961Z" stroke="#151414" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"></path>
-            </svg>
-          </span>
-        </button>
-        {isResourceOpen && <ResourceMenuPopUp closeDropdown={() => setIsResourceOpen(false)} />}
-      </li>
-      <li><a href="#" className="transition px-2 py-1">Customer Stories</a></li>
-      <li><a href="#" className="transition px-2 py-1">Partners <span className="bg-gradient-primary-3 text-xs px-1 rounded-md">30%</span></a></li>
-      <li><a href="#" className="transition px-2 py-1">Pricing</a></li>
-    </ul>
-  </div>
+<ul className="flex flex-col space-y-1 text-[#151414] text-sm font-semibold">
+  <li className="relative flex items-center" ref={dropdownRef}>
+    <div className="relative w-full">
+      <button
+        className="transition px-3 py-1 flex items-center justify-between w-full"
+        onClick={() => setIsOpenProduct((prev) => !prev)}
+      >
+        <span>Products</span>
+        <span>
+          <svg width="8" height="7" viewBox="0 0 9 6" fill="none">
+            <path d="M7.70078 1.39961L4.50078 4.59961L1.30078 1.39961" fill="#151414"></path>
+            <path d="M7.70078 1.39961L4.50078 4.59961L1.30078 1.39961L7.70078 1.39961Z" stroke="#151414" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"></path>
+          </svg>
+        </span>
+      </button>
+      {isOpenProduct && <ProductMenuPopUp closeDropdown={() => setIsOpenProduct(false)} />}
+    </div>
+  </li>
+  
+  <li className="relative flex items-center" ref={resourceDropdownRef}>
+    <div className="relative w-full">
+      <button
+        className="transition px-3 py-1 flex items-center justify-between w-full"
+        onClick={() => setIsResourceOpen(!isResourceOpen)}
+      >
+        <span>Resources</span>
+        <span>
+          <svg width="8" height="7" viewBox="0 0 9 6" fill="none">
+            <path d="M7.70078 1.39961L4.50078 4.59961L1.30078 1.39961" fill="#151414"></path>
+            <path d="M7.70078 1.39961L4.50078 4.59961L1.30078 1.39961L7.70078 1.39961Z" stroke="#151414" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"></path>
+          </svg>
+        </span>
+      </button>
+      {isResourceOpen && <ResourceMenuPopUp closeDropdown={() => setIsResourceOpen(false)} />}
+    </div>
+  </li>
+
+  <li>
+    <a href="#" className="px-4 py-1.5 flex items-center gap-x-2 text-base font-semibold">
+      <span>Partners</span>
+      <span className="bg-gradient-primary-3 text-base px-1 rounded-md">30%</span>
+    </a>
+  </li>
+  
+  <li>
+    <a href="#" className="px-4 py-1.5 block text-base font-semibold">Pricing</a>
+  </li>
+  
+  <li>
+    <a href="#" className="px-4 py-1.5 block text-base font-semibold">Customer Stories</a>
+  </li>
+</ul>
+
+
+        </div>
 
         {/* Navigation Links for Larger Screens */}
         <ul className="hidden lg:flex w-full lg:w-[50%] justify-center space-x-3 text-[#151414] text-sm font-semibold">
@@ -220,13 +238,13 @@ const Header = () => {
             )}
           </li>
 
-          <li className="pt-1">
+          <li className="pt-4 font-medium">
             <a href="#" className="rounded-lg p-1">Customer Stories</a>
           </li>
-          <li className="pt-1">
+          <li className="pt-4 font-medium">
             <a href="#" className="rounded-lg p-1">Partners <span className="bg-gradient-primary-3 text-xs px-1 rounded-md">30%</span></a>
           </li>
-          <li className="pt-1">
+          <li className="pt-4 font-medium">
             <a href="#" className="rounded-lg p-1">Pricing</a>
           </li>
         </ul>
