@@ -131,11 +131,18 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
             return;
         }
     
+        const token = localStorage.getItem("token"); // Get token from storage
+        if (!token) {
+            alert("User is not authenticated. Please log in.");
+            return;
+        }
+    
         try {
-            const response = await fetch("http://localhost:5000/update-video-url", {  // ✅ Make sure the API URL is correct
+            const response = await fetch("http://localhost:5000/client/updateVideoUrl", {  
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}` // ✅ Include token
                 },
                 body: JSON.stringify({ video_id: videoId, caption: newUrl })
             });
@@ -152,6 +159,7 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
             alert(error.message);
         }
     };
+    
     
 
     const toggleOptions = (videoId) => {
