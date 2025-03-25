@@ -275,6 +275,7 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
                                                 )}
                                             </div>
                                         )}
+                                        
                                     </div>
                                 </div>
                             </SwiperSlide>

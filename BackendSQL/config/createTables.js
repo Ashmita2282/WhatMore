@@ -170,7 +170,7 @@ const createTables = async () => {
         caption TEXT,
         media_url TEXT,
         CONSTRAINT fk_client FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE
-      );
+      ); 
     `);
     console.log("✅ video_details table created successfully");
 
