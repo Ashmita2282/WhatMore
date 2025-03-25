@@ -7,7 +7,7 @@ const TermsAndConditions = () => {
     <div className="bg-white min-h-screen">
       <Header />
       <div className="container mx-auto p-6">
-      <h1 className="text-6xl font-bold mb-4 items-center pt-24">
+      <h1 className="text-5xl font-bold mb-4 items-center pt-24">
       <span className="bg-gradient-to-r from-[#FD9BB8] to-[#CF9FF9] bg-clip-text text-transparent font-bold">
             Terms
           </span>{" "}

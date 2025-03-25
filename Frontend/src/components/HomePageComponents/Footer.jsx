@@ -77,37 +77,28 @@ function Footer() {
                 <li><Link to="/privacy-policy">Privacy Policy</Link></li>
               </ul>
             </div>
-
-
-            {/* Column 4 */}
-            {/* <div>
-              <h3 className="text-lg font-bold mb-4">Compare</h3>
-              <ul className="space-y-2">
-                <li>VidsCommerce Vs Quinn</li>
-                <li>VidsCommerce Vs Vimotia</li>
-              </ul>
-            </div> */}
-            {/* Column 5 */}
-            {/* <div>
-              <h3 className="text-lg font-bold mb-4">Free AI Tools</h3>
-              <ul className="space-y-2">
-                <li>AI Image To Video Converter</li>
-                <li>Dropshipping Ads Maker</li>
-                <li>Instagram Ads Maker</li>
-                <li>Tiktok Ads Maker</li>
-                <li>Facebook Ads Maker</li>
-                <li>AI Video Maker</li>
-                <li>Auto Add Captions</li>
-                <li>Amazon Product Review Video</li>
-                <li>Instagram Reel Maker</li>
-                <li>Add Music To Video</li>
-              </ul>
-            </div> */}
+          </div>
+          {/* Copyright Section */}
+          <div className="border-t border-gray-700 mt-6 pt-4 text-center text-base sm:text-base text-gray-400 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
+            <span>&copy; {new Date().getFullYear()} VidsCommerce. All rights reserved.</span>
+            <span className="hidden sm:inline">|</span>
+            <Link to="/privacy-policy" className="text-gray-300 hover:text-white transition flex items-center gap-1">
+              Privacy Policy
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-4 h-4 text-pink-400 hover:text-pink-500 transition"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h4m0 0v4m0-4L7 17" />
+              </svg>
+            </Link>
           </div>
         </footer>
       </div>
     </div>
   );
 }
-
 export default Footer;
