@@ -5,9 +5,12 @@ const APP_ID = process.env.FACEBOOK_APP_ID;
 const APP_SECRET = process.env.FACEBOOK_APP_SECRET;
 const REDIRECT_URI = "http://localhost:5000/auth/facebook/callback";
 let ACCESS_TOKEN = ""; // Store the access token
-let PAGE_ID = ""; // Store the selected Facebook Page ID
-let INSTA_ID = ""; // Store the Instagram Business Account ID
-let PAGE_ACCESS_TOKEN = ""; // Store the Page Access Token
+// let PAGE_ID = ""; // Store the selected Facebook Page ID
+// let INSTA_ID = ""; // Store the Instagram Business Account ID
+// let PAGE_ACCESS_TOKEN = ""; // Store the zPage Access Token
+let PAGE_ID = "566036853250412"; // Store the selected Facebook Page ID
+let INSTA_ID = "17841471580291936"; // Store the Instagram Business Account ID
+let PAGE_ACCESS_TOKEN = "EAAINURMpzSUBOzLgcIcTl00IBoOUTxgOZAwTcaZBZBvXExF37UZCXhwgCA5IrEy7mDH6333R0gZCGsYpZCEKXsqeLfp5v3gv4NpIK7bz1BBM3AuC7JrbOYI6tadEzCxgTZApZC0Uhb2IJTIR9XmVo6PJqtFZCGzIXMj7eVxKrywBku8ERpcHPQQoj2ZByn6sW5WEOa"; // Store the Page Access Token
 
 const exampleRoute = (req, res) => {
   res.send("Hello from Facebook API!");

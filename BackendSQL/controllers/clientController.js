@@ -88,33 +88,30 @@ const getVideoUrl = async (req, res) => {
 // Update Video URL
 const updateVideoUrl = async (req, res) => {
     try {
-        const client_id = req.user.id;
-        const { video_id, extracted_url } = req.body;
+        console.log("Request Body:", req.body);
 
-        if (!client_id) {
-            return res.status(401).json({ error: "Unauthorized: Client ID missing" });
+        const { video_id, caption } = req.body;
+
+        if (!video_id || !caption) {
+            return res.status(400).json({ error: "Video ID and caption are required" });
         }
 
-        if (!video_id || !extracted_url) {
-            return res.status(400).json({ error: "Video ID and extracted URL are required" });
-        }
+        const query = `
+            UPDATE video_details
+            SET caption = $1
+            WHERE video_id = $2;
+        `;
 
-        const result = await pool.query(
-            `UPDATE video_details 
-             SET caption = $1 
-             WHERE client_id = $2 AND video_id = $3`,
-            [extracted_url, client_id, video_id]
-        );
+        const result = await pool.query(query, [caption, video_id]);  // ✅ Use `pool.query`
 
         if (result.rowCount === 0) {
-            return res.status(404).json({ error: "Video not found" });
+            return res.status(404).json({ error: "Video ID not found" });
         }
 
-        res.json({ message: "Extracted URL updated successfully" });
-
+        res.json({ success: true, message: "Caption updated successfully" });
     } catch (error) {
-        console.error("Error updating extracted URL:", error.message);
-        res.status(500).json({ error: "Internal Server Error" });
+        console.error("🔥 Error updating caption:", error);
+        res.status(500).json({ error: "Internal Server Error", details: error.message });
     }
 };
 

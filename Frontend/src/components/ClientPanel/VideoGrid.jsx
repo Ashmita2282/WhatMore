@@ -126,26 +126,33 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
 
     // Update video URL in backend
     const updateVideoUrl = async (videoId) => {
+        if (!newUrl) {
+            alert("Please enter a valid URL.");
+            return;
+        }
+    
         try {
-            const response = await fetch("http://localhost:5000/client/updateVideoUrl", {
+            const response = await fetch("http://localhost:5000/update-video-url", {  // ✅ Make sure the API URL is correct
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ video_id: videoId, extracted_url: newUrl }),
-                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ video_id: videoId, caption: newUrl })
             });
-
+    
             const data = await response.json();
-            if (response.ok) {
-                setFetchedUrls((prev) => ({ ...prev, [videoId]: newUrl })); // Update displayed URL
-                setShowOptions((prev) => ({ ...prev, [videoId]: false })); // Hide options
-                setNewUrl(""); // Reset input
-            } else {
-                console.error("Error updating video URL:", data.error);
+    
+            if (!response.ok) {
+                throw new Error(data.error || "Failed to update URL");
             }
+    
+            alert("Caption updated successfully!");
         } catch (error) {
-            console.error("Network error while updating video URL:", error);
+            console.error("Error updating URL:", error);
+            alert(error.message);
         }
     };
+    
 
     const toggleOptions = (videoId) => {
         setShowOptions(prev => ({
