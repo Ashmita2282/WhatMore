@@ -303,7 +303,6 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
                                                             Add URL
                                                         </button>
                                                         {/* Stop Carousel Button */}
-                                                        <button onClick={(e) => stopCarousel(e)}>Stop Carousel</button>
                                                     </>
                                                 )}
                                             </div>
