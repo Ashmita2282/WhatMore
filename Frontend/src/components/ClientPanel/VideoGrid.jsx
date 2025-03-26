@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import "swiper/css";
 import "swiper/css/navigation";
 import styles from "./VideoGrid.module.css";
+import { useRef } from "react";
 
 const VideoGrid = ({ videos, handleVideoClick }) => {
     const navigate = useNavigate();
@@ -12,21 +13,27 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
     const [showOptions, setShowOptions] = useState({});
     const [fetchedUrls, setFetchedUrls] = useState({}); // Stores URLs fetched from backend
     const [newUrl, setNewUrl] = useState(""); // Stores user input for new URL
-
+    const swiperRef = useRef(null);
+    const stopCarousel = (e) => {
+        e.stopPropagation();
+        if (swiperRef.current) {
+            swiperRef.current.autoplay.stop(); // Stop autoplay
+            swiperRef.current.allowTouchMove = false; // Disable swipe gestures
+            swiperRef.current.loop = false; // Disable looping
+            setIsCarouselStopped(true);
+        }
+    };
     const token = localStorage.getItem("token");
-
-//    console.log(`videos from videoGrid:${videos}`)
+    //    console.log(`videos from videoGrid:${videos}`)
     const httpsUrlRegex = /(https:\/\/[^\s]+)/g;
-
     // Fetch Shopify product data
     useEffect(() => {
         const fetchAllProducts = async () => {
             const endpoint = "https://gristiptest.myshopify.com/api/2025-01/graphql.json";
-            const accessToken = "7bcea6ccac70730be7c32d0dc91e5cd3"; 
+            const accessToken = "7bcea6ccac70730be7c32d0dc91e5cd3";
             let allProducts = [];
             let hasNextPage = true;
             let cursor = null;
-
             while (hasNextPage) {
                 const query = `{
                     products(first: 50, after: ${cursor ? `"${cursor}"` : "null"}) {
@@ -86,7 +93,6 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
         fetchAllProducts();
     }, []);
 
-
     // Fetch video URL from backend caption
     const fetchVideoUrl = async () => {
         try {
@@ -122,23 +128,21 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
         fetchVideoUrl();
     }, []);
 
-    // console.log(fetchedUrls);
-
     // Update video URL in backend
     const updateVideoUrl = async (videoId) => {
         if (!newUrl) {
             alert("Please enter a valid URL.");
             return;
         }
-    
+
         const token = localStorage.getItem("token"); // Get token from storage
         if (!token) {
             alert("User is not authenticated. Please log in.");
             return;
         }
-    
+
         try {
-            const response = await fetch("http://localhost:5000/client/updateVideoUrl", {  
+            const response = await fetch("http://localhost:5000/client/updateVideoUrl", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -146,21 +150,19 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
                 },
                 body: JSON.stringify({ video_id: videoId, caption: newUrl })
             });
-    
+
             const data = await response.json();
-    
+
             if (!response.ok) {
                 throw new Error(data.error || "Failed to update URL");
             }
-    
+
             alert("Caption updated successfully!");
         } catch (error) {
             console.error("Error updating URL:", error);
             alert(error.message);
         }
     };
-    
-    
 
     const toggleOptions = (videoId) => {
         setShowOptions(prev => ({
@@ -171,6 +173,12 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
         // Fetch video URL when user opens options
         if (!showOptions[videoId]) {
             fetchVideoUrl(videoId);
+        }
+
+        if (swiperRef.current) {
+            swiperRef.current.autoplay.stop();  // Stop autoplay
+            swiperRef.current.allowTouchMove = false; // Disable swipe
+            swiperRef.current.loop = false; // Stop looping
         }
     };
 
@@ -184,7 +192,6 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
     if (!products.length) {
         return <p>Loading products...</p>;
     }
-    
 
     return (
         <>
@@ -200,16 +207,21 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
                     modules={[Navigation, Autoplay]}
                     autoplay={{ delay: 3000, disableOnInteraction: false }}
                     loop={true}
+                    allowTouchMove={true}
                     navigation={{
                         nextEl: ".swiper-button-next",
                         prevEl: ".swiper-button-prev",
                     }}
                     breakpoints={{
                         100: { slidesPerView: 2 },
-                        425: { slidesPerView: 5 },
-                        1000: { slidesPerView: 6 },
+                        511: { slidesPerView: 3 },
+                        901: { slidesPerView: 4 },
+                        1110: { slidesPerView: 5 },
+                        1365: { slidesPerView: 6 },
                     }}
+                    onSwiper={(swiper) => (swiperRef.current = swiper)} // Stores swiper instance
                 >
+
                     {videos.map((video) => {
                         const extractedHttpsUrl = fetchedUrls[video.id] || ""; // URL fetched from backend
                         const currProduct = extractedHttpsUrl
@@ -225,7 +237,11 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
                                         loop
                                         muted
                                         className={styles["video-rectangle"]}
-                                        onClick={() => handleVideoClick(video)}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            stopCarousel(e); // Stop carousel when edit icon is clicked
+                                            toggleOptions(video.id);
+                                        }}
                                     />
                                     <div className={styles["video-info"]} onClick={() => handleVideoClick(video)}>
                                         <span className={styles["product-name"]}>{currProduct?.name || "Unavailable"}</span>
@@ -237,9 +253,9 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
                                             className={styles.redirect_icon}
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                toggleOptions(video.id);
+                                                toggleOptions(video.id); // This will now stop Swiper
                                             }}
-                                        />  
+                                        />
 
                                         {showOptions[video.id] && (
                                             <div className={styles["options-container"]}>
@@ -286,11 +302,14 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
                                                         }}>
                                                             Add URL
                                                         </button>
+                                                        {/* Stop Carousel Button */}
+                                                        <button onClick={(e) => stopCarousel(e)}>Stop Carousel</button>
                                                     </>
                                                 )}
                                             </div>
+
                                         )}
-                                        
+
                                     </div>
                                 </div>
                             </SwiperSlide>
