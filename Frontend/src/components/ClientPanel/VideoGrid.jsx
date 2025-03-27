@@ -86,10 +86,8 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
                     hasNextPage = false;
                 }
             }
-
             setProducts(allProducts);
         };
-
         fetchAllProducts();
     }, []);
 
@@ -134,13 +132,13 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
             alert("Please enter a valid URL.");
             return;
         }
-
+    
         const token = localStorage.getItem("token"); // Get token from storage
         if (!token) {
             alert("User is not authenticated. Please log in.");
             return;
         }
-
+    
         try {
             const response = await fetch("http://localhost:5000/client/updateVideoUrl", {
                 method: "POST",
@@ -150,42 +148,48 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
                 },
                 body: JSON.stringify({ video_id: videoId, caption: newUrl })
             });
-
+    
             const data = await response.json();
-
+    
             if (!response.ok) {
                 throw new Error(data.error || "Failed to update URL");
             }
-
+    
             alert("Caption updated successfully!");
+    
+            // ✅ Close the edit option after updating
+            setShowOptions((prev) => ({
+                ...prev,
+                [videoId]: false, // Close the current edit container
+            }));
+    
+            // Optionally, reset input field
+            setNewUrl("");
         } catch (error) {
             console.error("Error updating URL:", error);
             alert(error.message);
         }
     };
+    
 
     const toggleOptions = (videoId) => {
-        setShowOptions(prev => ({
-            ...prev,
-            [videoId]: !prev[videoId]
-        }));
-
-        // Fetch video URL when user opens options
+        setShowOptions((prev) => {
+            const newState = Object.keys(prev).reduce((acc, key) => {
+                acc[key] = false; // Close all other open edit options
+                return acc;
+            }, {});
+            return { ...newState, [videoId]: !prev[videoId] }; // Toggle only the clicked one
+        });
         if (!showOptions[videoId]) {
             fetchVideoUrl(videoId);
         }
-
+    
         if (swiperRef.current) {
             swiperRef.current.autoplay.stop();  // Stop autoplay
             swiperRef.current.allowTouchMove = false; // Disable swipe
             swiperRef.current.loop = false; // Stop looping
         }
     };
-
-    // if (!videos.length || !products.length) {
-    //     return <p>Loading videos and products...</p>;
-    // }
-
     if (!videos.length) {
         return <p>Loading videos...</p>;
     }
@@ -251,62 +255,55 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
                                             src="../images/edit.png"
                                             alt="edit_image"
                                             className={styles.redirect_icon}
+                                            title="Click to edit the URL"
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                toggleOptions(video.id); // This will now stop Swiper
+                                                toggleOptions(video.id);
                                             }}
                                         />
-
                                         {showOptions[video.id] && (
                                             <div className={styles["options-container"]}>
+                                                <div className={styles["input-container"]}>
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Enter new URL"
+                                                        value={newUrl}
+                                                        onChange={(e) => setNewUrl(e.target.value)}
+                                                        onClick={(e) => e.stopPropagation()}
+                                                    />
+                                                    {/* Tick Button (✔) beside input */}
+                                                    <button className={styles["tick-button"]} onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        updateVideoUrl(video.id);
+                                                    }}>
+                                                        <svg width="35" height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M5 12l5 5L19 7" stroke="white" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
                                                 {extractedHttpsUrl ? (
                                                     <>
-                                                        <button onClick={() => window.open(extractedHttpsUrl, "_blank")}>
-                                                            View Product
-                                                        </button>
-                                                        <input
-                                                            type="text"
-                                                            placeholder="Enter new URL"
-                                                            value={newUrl}
-                                                            onChange={(e) => setNewUrl(e.target.value)}
-                                                            onClick={(e) => e.stopPropagation()}
-                                                        />
-                                                        <button onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            updateVideoUrl(video.id);
-                                                        }}>
-                                                            Update URL
-                                                        </button>
-                                                        <button
-                                                            className="clear-button"
-                                                            onClick={(e) => {
+                                                        <div className={styles["button-group"]}>
+                                                            {/* ✅ View Product button remains! */}
+                                                            <button onClick={() => window.open(extractedHttpsUrl, "_blank")}>View Product</button>
+
+                                                            {/* ❌ Close Button */}
+                                                            <button className={styles["close-button"]} onClick={(e) => {
                                                                 e.stopPropagation();
-                                                                setNewUrl(""); // Clears the input field
-                                                            }}
-                                                        >
-                                                            X
-                                                        </button>
+                                                                setShowOptions(false); // Close the container
+                                                            }}>Close</button>
+                                                        </div>
                                                     </>
                                                 ) : (
-                                                    <>
-                                                        <input
-                                                            type="text"
-                                                            placeholder="Enter new URL"
-                                                            value={newUrl}
-                                                            onChange={(e) => setNewUrl(e.target.value)}
-                                                            onClick={(e) => e.stopPropagation()}
-                                                        />
-                                                        <button onClick={(e) => {
+                                                    <div className={styles["add-button-container"]}>
+                                                        {/* ❌ Close Button (when no extracted URL) */}
+                                                        <button className={styles["close-button"]} onClick={(e) => {
                                                             e.stopPropagation();
-                                                            updateVideoUrl(video.id);
-                                                        }}>
-                                                            Add URL
-                                                        </button>
-                                                        {/* Stop Carousel Button */}
-                                                    </>
+                                                            setShowOptions(false); // Close the container
+                                                        }}>Close</button>
+                                                    </div>
                                                 )}
                                             </div>
-
                                         )}
 
                                     </div>

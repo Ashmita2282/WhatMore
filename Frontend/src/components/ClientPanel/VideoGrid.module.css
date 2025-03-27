@@ -155,46 +155,105 @@
 
   .options-container {
     position: absolute;
-    top: -30px; /* Adjust based on icon position */
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    top: 0; /* Reduce space from top */
+    left: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
     display: flex;
     flex-direction: column;
+    align-items: center;
+    padding: 3px; /* Reduce padding */
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 10;
-    width: 150px;
+    height: 90px; /* Adjust height dynamically */
 }
 
-.options-container button {
-    background: none;
-    border: none;
-    padding: 8px 10px;
-    cursor: pointer;
-    text-align: left;
-    font-size: 14px;
+/* Adjust Input Box */
+.options-container input[type="text"] { 
     width: 100%;
-}
-
-.options-container button:hover {
-    background-color: #f5f5f5;
-}
-
-.clear-button {
-    position: absolute;
-    right: 5px;
-    top: 50%;
-    transform: translateY(-50%);
-    border: none;
-    background: transparent;
-    cursor: pointer;
+    height: 36px; /* Match button height */
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
     font-size: 16px;
-    color: black;
+    outline: none;
+    margin-top: 0; /* Ensure no extra margin */
 }
 
+/* Keeps input and tick button close together */
+.input-container {
+    display: flex;
+    align-items: center;
+    gap: 2px; /* Reduce space between input and tick button */
+    margin-top: -5px; /* Reduce space from the top */
+    margin-left: 4px;
+    margin-right: -8px;
+}
+
+/* Tick button (✔) beside input */
+.tick-button {
+    background-color: #4CAF50 !important; /* Green background */
+    color: white !important;
+    border: none;
+    width: 36px; /* Reduce button size slightly */
+    height: 36px; /* Reduce button size slightly */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 12px;
+}
+
+/* Adjust SVG size to remain visible */
+.tick-button svg {
+    width: 22px !important; /* Adjust tick size */
+    height: 22px !important; /* Adjust tick size */
+    flex-shrink: 0;
+}
+
+/* Ensures View Product & Close are side by side with minimal gap */
+.button-group {
+    display: flex;
+    gap: 1px; /* Minimal gap */
+}
+
+/* Keeps buttons uniform */
+.button-group button {
+    flex: 1;
+    white-space: nowrap;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: -3px;
+    height: 80%;
+    font-size: 15px;
+    text-align: center;
+    /* margin-left: -3px; */
+}
+
+/* View Product button */
+.button-group button:first-child {
+    background-color: #2777cc; /* Blue */
+    color: white;
+}
+
+/* Close button */
+.close-button {
+    background-color: #ac2a2a; /* Red */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: -3px;
+    height: 80%;
+    font-size: 15px;
+    text-align: center;
+}
 
 @media (max-width: 280px) {
     .header {
