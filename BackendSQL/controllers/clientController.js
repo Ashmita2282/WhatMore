@@ -89,13 +89,14 @@ const getVideoUrl = async (req, res) => {
 const updateVideoUrl = async (req, res) => {
     try {
         const client_id = req.user.id;
-        const { video_id, extracted_url } = req.body;
+        const {video_id} = req.body;
+        const caption =req.body.extracted_url;
 
         if (!client_id) {
             return res.status(401).json({ error: "Unauthorized: Client ID missing" });
         }
 
-        if (!video_id || !extracted_url) {
+        if (!video_id || !caption) {
             return res.status(400).json({ error: "Video ID and extracted URL are required" });
         }
 
@@ -103,7 +104,7 @@ const updateVideoUrl = async (req, res) => {
             `UPDATE video_details 
              SET caption = $1 
              WHERE client_id = $2 AND video_id = $3`,
-            [extracted_url, client_id, video_id]
+            [caption, client_id, video_id]
         );
 
         if (result.rowCount === 0) {

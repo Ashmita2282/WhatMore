@@ -17,10 +17,10 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 // Navigation items
 const NAVIGATION = [
-  { segment: "store-id", title: "Store ID: 123456", position: "bottom", isStatic: true },
   { segment: 'dashboard', title: 'Dashboard', icon: <DashboardIcon /> },
   { segment: 'reports', title: 'Reports', icon: <BarChartIcon /> },
     { segment: "profile", title: "Profile", icon: <AccountCircleIcon />, position: "bottom" },
+    { segment: "store-id", title: "Store ID: 123456", position: "bottom", isStatic: true },
     { segment: "logout", title: "Logout", icon: <ExitToAppIcon />, position: "bottom", onClick: () => handleLogout() }
   ];
 

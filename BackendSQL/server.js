@@ -9,6 +9,7 @@ const planRoutes = require("./routes/planRoutes");
 const clientRoutes= require("./routes/clientRoutes");
 const facebookRoutes = require("./routes/facebookRoutes");
 const shopifyRoutes = require("./routes/shopifyRoutes")
+const analyticsRoutes = require("./routes/analyticsRoutes");
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ app.use("/api/plans", planRoutes); // Use this route for plan operations
 app.use('/auth/facebook', facebookRoutes);
 app.use('/client',clientRoutes);
 app.use('/auth/shopify', shopifyRoutes);
+app.use('/analytics', analyticsRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

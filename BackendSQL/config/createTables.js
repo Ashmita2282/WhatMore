@@ -157,7 +157,8 @@ const createTables = async () => {
         woocommerce_store_name VARCHAR(255),
         woocommerce_store_url TEXT,
         woocommerce_consumer_key VARCHAR(255),
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        count BIGINT DEFAULT 0
       );
     `);
     console.log("✅ Client_details table created successfully");

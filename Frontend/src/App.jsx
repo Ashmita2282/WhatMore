@@ -17,7 +17,6 @@ const App = () => {
 
   const [videos, setVideos] = useState([]);
   const [currentPost, setCurrentPost] = useState(null);
-  const [count, setCount] = useState(0);
   const httpsUrlRegex = /(https?:\/\/[^\s]+)/g;
   // const location = useLocation();
 
@@ -89,12 +88,54 @@ const App = () => {
       fetchPageAccessToken();
     }, [token]);
 
+    const fetchAndUpdateCount = async () => {
+      try {
+          // Fetch the current count
+          const response = await axios.get("http://localhost:5000/analytics/getCount", {
+              headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+              },
+              withCredentials: true,
+          });
+  
+          let currentCount = parseInt(response.data.count, 10) || 0; 
+          console.log("Fetched Count:", currentCount);
+  
+          // Increment count
+          const newCount = currentCount + 1;
+  
+          // Post the updated count
+          const postResponse = await axios.post(
+              "http://localhost:5000/analytics/postCount",
+              { count: newCount },
+              {
+                  headers: {
+                      Authorization: `Bearer ${token}`,
+                      "Content-Type": "application/json",
+                  },
+                  withCredentials: true,
+              }
+          );
+  
+          console.log("Count updated successfully:", postResponse.data.count);
+          return postResponse.data.count;
+      } catch (error) {
+          console.error("Error in fetch and update count:", error.response ? error.response.data : error.message);
+          return null;
+      }
+  };
+  
+  // Call the function when needed
+  // useEffect(() => {
+  //     fetchAndUpdateCount();
+  // }, []);
+  
 
   const handleVideoClick = (video) => {
     setCurrentPost(video);
-    
-    setCount(count + 1);
-  };
+    fetchAndUpdateCount();
+};
 
   const closeSlider = () => {
     setCurrentPost(null);
@@ -108,7 +149,7 @@ const App = () => {
       <Route path="/signup" element={<SignUp/>} />
       <Route path="/login" element={<Login/>} />
       <Route path="/client" element={<ClientHome />} />
-      <Route path="/clientPage" element={<DashboardLayoutBranding count={count} />} />
+      <Route path="/clientPage" element={<DashboardLayoutBranding />} />
       <Route path="/videoGrid" element={<VideoGrid videos={videos} handleVideoClick={handleVideoClick} />} />
       <Route path="/facebook" element={<FacebookAuth />} />
       <Route path="/shopify" element={<ManualShopifyConnect />} />

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Grid.module.css";
+import axios from "axios";
 
 const Grid = ({ closeSlider, currentPost, videos }) => {
   const [initialPost, setInitialPost] = useState(currentPost);
@@ -13,8 +14,6 @@ const Grid = ({ closeSlider, currentPost, videos }) => {
   const [videoUrl, setVideoUrl] = useState(null);
 
   const token = localStorage.getItem("token");
-
-  
 
   // Fetch Shopify product data
   useEffect(() => {
@@ -155,6 +154,47 @@ const Grid = ({ closeSlider, currentPost, videos }) => {
     setAnimation("");
   };
 
+  
+  // Fetch the current add-to-cart count
+  const fetchAndUpdateCartCount = async () => {
+    try {
+        // Fetch the current add-to-cart count
+        const response = await axios.get("http://localhost:5000/analytics/getCartCount", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            withCredentials: true,
+        });
+
+        let currentCartCount = parseInt(response.data.count, 10) || 0;
+        console.log("Fetched Cart Count:", currentCartCount);
+
+        // Increment count
+        const newCartCount = currentCartCount + 1;
+
+        // Post the updated count
+        const postResponse = await axios.post(
+            "http://localhost:5000/analytics/postCartCount",
+            { count: newCartCount },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                withCredentials: true,
+            }
+        );
+
+        console.log("Cart count updated successfully:", postResponse.data.count);
+        return postResponse.data.count;
+    } catch (error) {
+        console.error("Error in fetch and update cart count:", error.response ? error.response.data : error.message);
+        return null;
+    }
+};
+
+
   const handleBuyNowClick = () => {
     if (isExpanded) {
       setSelectedSize(null); // Remove selected size when collapsing
@@ -251,7 +291,9 @@ const Grid = ({ closeSlider, currentPost, videos }) => {
                               onClick={() => {
                                 console.log(`Added size ${selectedSize} to cart`);
                                 setIsPopupVisible(true);  // Show the pop-up
-                                setTimeout(() => setIsPopupVisible(false), 3000);  // Hide the pop-up after 3 seconds
+                                fetchAndUpdateCartCount();
+                                setTimeout(() => setIsPopupVisible(false), 3000);  // Hide the pop-up after 3 second
+                              
                               }}
                             >
                               ADD TO CART
