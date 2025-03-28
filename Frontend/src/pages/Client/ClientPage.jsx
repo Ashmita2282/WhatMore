@@ -59,7 +59,7 @@ const demoTheme = createTheme({
 // }
 
 // Component to handle page rendering based on selected navigation
-function DemoPageContent({ pathname , count}) {
+function DemoPageContent({ pathname, count }) {
   switch (pathname) {
     case '/dashboard':
       return <DashboardContent count={count} />;
@@ -67,10 +67,12 @@ function DemoPageContent({ pathname , count}) {
       return <ReportsContent count={count} />;
     case '/profile':
       return <ProfileContent count={count} />;
+    case '/login':
+      window.location.href = "/login"; // Redirect to login page
+      return null;
     default:
       return <Typography variant="h5">Page Not Found</Typography>;
-  }
-}
+  }}
 
 DemoPageContent.propTypes = {
   pathname: PropTypes.string.isRequired,
