@@ -153,9 +153,11 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
 
             if (!response.ok) {
                 throw new Error(data.error || "Failed to update URL");
-            }
+            } 
 
-            alert("Caption updated successfully!");
+            alert("Caption updated successfully! Please refresh the page.");
+            console.log('Updating caption to:', newUrl); // Check the value of newUrl
+
 
             // ✅ Close the edit option after updating
             setShowOptions((prev) => ({

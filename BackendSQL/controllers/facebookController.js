@@ -317,15 +317,20 @@ const saveVideos = async (req, res) => {
     // Insert or Update Videos
     for (const video of videos) {
       await pool.query(
-        `INSERT INTO video_details (video_id, client_id, likes_count, caption, media_url) 
-         VALUES ($1, $2, $3, $4, $5) 
-         ON CONFLICT (video_id) DO UPDATE 
-         SET likes_count = EXCLUDED.likes_count, 
-             caption= EXCLUDED.caption, 
-             media_url = EXCLUDED.media_url`,
-        [video.id, client_id, video.likes, video.extracted_url, video.media_url]
+          `INSERT INTO video_details (video_id, client_id, likes_count, caption, media_url) 
+           VALUES ($1, $2, $3, $4, $5) 
+           ON CONFLICT (video_id) DO UPDATE 
+           SET likes_count = EXCLUDED.likes_count, 
+               caption = CASE 
+                   WHEN video_details.caption IS NULL OR video_details.caption = '' -- ✅ If first-time fetch, store Instagram caption
+                   THEN EXCLUDED.caption 
+                   ELSE video_details.caption -- ✅ Keep manual changes
+               END,
+               media_url = COALESCE(NULLIF(EXCLUDED.media_url, ''), video_details.media_url)`,
+          [video.id, client_id, video.likes, video.extracted_url, video.media_url] // Using extracted_url for IG captions
       );
-    }
+  }
+  
 
     res.status(201).json({ message: "Videos saved successfully" });
   } catch (error) {
