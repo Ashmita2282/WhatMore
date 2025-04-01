@@ -14,15 +14,15 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
     const [fetchedUrls, setFetchedUrls] = useState({}); // Stores URLs fetched from backend
     const [newUrl, setNewUrl] = useState(""); // Stores user input for new URL
     const swiperRef = useRef(null);
-    const stopCarousel = (e) => {
-        e.stopPropagation();
-        if (swiperRef.current) {
-            swiperRef.current.autoplay.stop(); // Stop autoplay
-            swiperRef.current.allowTouchMove = false; // Disable swipe gestures
-            swiperRef.current.loop = false; // Disable looping
-            setIsCarouselStopped(true);
-        }
-    };
+    // const stopCarousel = (e) => {
+    //     e.stopPropagation();
+    //     if (swiperRef.current) {
+    //         swiperRef.current.autoplay.stop(); // Stop autoplay
+    //         swiperRef.current.allowTouchMove = false; // Disable swipe gestures
+    //         swiperRef.current.loop = false; // Disable looping
+    //         setIsCarouselStopped(true);
+    //     }
+    // };
     const token = localStorage.getItem("token");
     //    console.log(`videos from videoGrid:${videos}`)
     const httpsUrlRegex = /(https:\/\/[^\s]+)/g;
@@ -132,13 +132,13 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
             alert("Please enter a valid URL.");
             return;
         }
-    
+
         const token = localStorage.getItem("token"); // Get token from storage
         if (!token) {
             alert("User is not authenticated. Please log in.");
             return;
         }
-    
+
         try {
             const response = await fetch("http://localhost:5000/client/updateVideoUrl", {
                 method: "POST",
@@ -148,21 +148,21 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
                 },
                 body: JSON.stringify({ video_id: videoId, caption: newUrl })
             });
-    
+
             const data = await response.json();
-    
+
             if (!response.ok) {
                 throw new Error(data.error || "Failed to update URL");
             }
-    
+
             alert("Caption updated successfully!");
-    
+
             // ✅ Close the edit option after updating
             setShowOptions((prev) => ({
                 ...prev,
                 [videoId]: false, // Close the current edit container
             }));
-    
+
             // Optionally, reset input field
             setNewUrl("");
         } catch (error) {
@@ -170,7 +170,7 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
             alert(error.message);
         }
     };
-    
+
 
     const toggleOptions = (videoId) => {
         setShowOptions((prev) => {
@@ -183,7 +183,7 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
         if (!showOptions[videoId]) {
             fetchVideoUrl(videoId);
         }
-    
+
         if (swiperRef.current) {
             swiperRef.current.autoplay.stop();  // Stop autoplay
             swiperRef.current.allowTouchMove = false; // Disable swipe
@@ -242,9 +242,10 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
                                         muted
                                         className={styles["video-rectangle"]}
                                         onClick={(e) => {
+                                            handleVideoClick(video)
                                             e.stopPropagation();
-                                            stopCarousel(e); // Stop carousel when edit icon is clicked
-                                            toggleOptions(video.id);
+                                            // stopCarousel(e); // Stop carousel when edit icon is clicked
+                                            // toggleOptions(video.id);
                                         }}
                                     />
                                     <div className={styles["video-info"]} onClick={() => handleVideoClick(video)}>
@@ -290,8 +291,16 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
                                                             {/* ❌ Close Button */}
                                                             <button className={styles["close-button"]} onClick={(e) => {
                                                                 e.stopPropagation();
-                                                                setShowOptions(false); // Close the container
+                                                                setShowOptions((prev) => ({ ...prev, [video.id]: false })); // Close the container
+
+                                                                // ✅ Resume carousel movement
+                                                                if (swiperRef.current) {
+                                                                    swiperRef.current.autoplay.start();  // Restart autoplay
+                                                                    swiperRef.current.allowTouchMove = true; // Enable swipe
+                                                                    swiperRef.current.loop = true; // Restore looping if needed
+                                                                }
                                                             }}>Close</button>
+
                                                         </div>
                                                     </>
                                                 ) : (
@@ -299,8 +308,16 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
                                                         {/* ❌ Close Button (when no extracted URL) */}
                                                         <button className={styles["close-button"]} onClick={(e) => {
                                                             e.stopPropagation();
-                                                            setShowOptions(false); // Close the container
+                                                            setShowOptions((prev) => ({ ...prev, [video.id]: false })); // Close the container
+
+                                                            // ✅ Resume carousel movement
+                                                            if (swiperRef.current) {
+                                                                swiperRef.current.autoplay.start();  // Restart autoplay
+                                                                swiperRef.current.allowTouchMove = true; // Enable swipe
+                                                                swiperRef.current.loop = true; // Restore looping if needed
+                                                            }
                                                         }}>Close</button>
+
                                                     </div>
                                                 )}
                                             </div>
