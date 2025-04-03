@@ -15,101 +15,104 @@ const Grid = ({ closeSlider, currentPost, videos }) => {
 
   const token = localStorage.getItem("token");
 
+//   useEffect(() => {
+//     setInitialPost(currentPost);
+// }, [currentPost]);
+
   // Fetch Shopify product data
   useEffect(() => {
     const fetchShopifyData = async () => {
-      const endpoint = "https://gristiptest.myshopify.com/api/2025-01/graphql.json";
-      const accessToken = "7bcea6ccac70730be7c32d0dc91e5cd3"; 
+        const endpoint = "https://gristiptest.myshopify.com/api/2025-01/graphql.json";
+        const accessToken = "7bcea6ccac70730be7c32d0dc91e5cd3"; 
+        let allProducts = [];
+        let cursor = null;
+        let hasNextPage = true;
 
-
-      const query = `{
-        products(first: 10) {
-          edges {
-            node {
-              id
-              title
-              handle
-              onlineStoreUrl
-              variants(first: 100) {
-                edges {
-                  node {
-                    id
-                    title
-                    priceV2 {
-                      amount
-                      currencyCode
+        while (hasNextPage) {
+            const query = `{
+                products(first: 50, after: ${cursor ? `"${cursor}"` : "null"}) {
+                    edges {
+                        node {
+                            id
+                            title
+                            handle
+                            onlineStoreUrl
+                            variants(first: 100) {
+                                edges {
+                                    node {
+                                        id
+                                        title
+                                        priceV2 {
+                                            amount
+                                            currencyCode
+                                        }
+                                        selectedOptions {
+                                            name
+                                            value
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
-                    selectedOptions {
-                      name
-                      value
+                    pageInfo {
+                        hasNextPage
+                        endCursor
                     }
-                  }
                 }
-              }
+            }`;
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-Shopify-Storefront-Access-Token": accessToken,
+                    },
+                    body: JSON.stringify({ query }),
+                });
+
+                const json = await response.json();
+                
+                const products = json.data.products.edges.map(({ node }) => {
+                    const variants = node.variants.edges.map(variant => ({
+                        id: variant.node.id,
+                        title: variant.node.title,
+                        url: node.onlineStoreUrl || `https://gristiptest.myshopify.com/products/${node.handle}`,
+                        price: `${variant.node.priceV2.amount} ${variant.node.priceV2.currencyCode}`,
+                        size: variant.node.selectedOptions
+                            .filter(option => option.name === "Size")
+                            .map(option => option.value),
+                    }));
+
+                    const allSizes = [...new Set(variants.flatMap(variant => variant.size))];
+
+                    return {
+                        id: node.id,
+                        name: node.title,
+                        variants,
+                        sizes: allSizes,
+                    };
+                });
+
+                allProducts = [...allProducts, ...products];
+
+                // Update cursor and check for next page
+                hasNextPage = json.data.products.pageInfo.hasNextPage;
+                cursor = json.data.products.pageInfo.endCursor;
+
+            } catch (error) {
+                console.error("Error fetching Shopify data:", error);
+                break;
             }
-          }
         }
-      }`;
 
-      try {
-        const response = await fetch(endpoint, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Shopify-Storefront-Access-Token": accessToken,
-          },
-          body: JSON.stringify({ query }),
-        });
-
-        const json = await response.json();
-        const products = json.data.products.edges.map(({ node }) => {
-          const variants = node.variants.edges.map(variant => ({
-            id: variant.node.id,
-            title: variant.node.title,
-            url: node.onlineStoreUrl || `https://gristiptest.myshopify.com/products/${node.handle}`,
-            price: `${variant.node.priceV2.amount} ${variant.node.priceV2.currencyCode}`,
-            size: variant.node.selectedOptions
-              .filter(option => option.name === "Size")
-              .map(option => option.value),
-          }));
-
-          // Collect all unique sizes for each product
-          const allSizes = [...new Set(variants.flatMap(variant => variant.size))];
-
-          return {
-            id: node.id,
-            name: node.title,
-            variants,
-            sizes: allSizes,
-          };
-        });
-
-        setProducts(products);
-      } catch (error) {
-        console.error("Error fetching Shopify data:", error);
-      }
+        setProducts(allProducts);
     };
 
     fetchShopifyData();
-  }, []);
+}, []);
 
-  // Fetch video URL from backend caption
-  // const fetchVideo = async () => {
-  //   setVideoUrl(null);
-
-  //   try {
-  //     const response = await fetch(`http://localhost:4000/facebook/auth/videos/${videoId}`);
-
-  //     if (!response.ok) {
-  //       return alert("Failed to fetch video. Please check the video ID.");
-  //     }
-
-  //     const data = await response.json();
-  //     setVideoUrl(data.video.url);
-  //   } catch (err) {
-  //     alert("An error occurred while fetching the video.");
-  //   }
-  // };
 
   // Find the current index of the video
   const currentIndex = videos.findIndex((post) => post.id === initialPost.id);
@@ -144,17 +147,15 @@ const Grid = ({ closeSlider, currentPost, videos }) => {
       setTimeout(() => {
         setInitialPost(prevVideo);
         setAnimation("");  
-            }, 500);
+        }, 500);
     }
   };
-
 
   const handleAnimationEnd = (e) => {
     console.log("Animation completed for element:", e.target.className);
     setAnimation("");
   };
 
-  
   // Fetch the current add-to-cart count
   const fetchAndUpdateCartCount = async () => {
     try {
@@ -207,19 +208,20 @@ const Grid = ({ closeSlider, currentPost, videos }) => {
     setSelectedSize(size); // Update the selected size
   };
 
-  const httpsUrlRegex = /(https:\/\/[^\s]+)/g;
-  const extractedHttpsUrl = initialPost.caption?.match(httpsUrlRegex)?.[0];
+const httpsUrlRegex = /(https:\/\/[^\s]+)/g;
+const extractedHttpsUrl = initialPost.caption?.match(httpsUrlRegex)?.[0] || "";
+const currProduct = extractedHttpsUrl? products.find(product => product.variants[0].url === extractedHttpsUrl): null;
+
+console.log("Extracted URL from grid:", extractedHttpsUrl);
+console.log("Current Product:", currProduct);
+
 
   if (!products.length) {
     return <p>Loading products...</p>;
   }
-
-  // Find the corresponding product for the current video (match by index)
-  const product = products[currentIndex % products.length]; // Loop through products if fewer than videos
-
+  
   // Find the available sizes for the current product
-  const availableSizes = product?.sizes || []; // Using all unique sizes
-
+  const availableSizes = currProduct?.sizes || []; // Using all unique sizes
 
   return (
     <>
@@ -265,7 +267,7 @@ const Grid = ({ closeSlider, currentPost, videos }) => {
               >
 
                 {/* Display product name and price */}
-                {product && (
+                {currProduct && (
                   <>
                     {isExpanded ? (
                       <>
@@ -316,8 +318,8 @@ const Grid = ({ closeSlider, currentPost, videos }) => {
                       </>
                     ) : (
                       <>
-                        <span className={styles.product_name}>{product.name}</span>
-                        <span className={styles.product_price}>{product.variants[0].price}</span>
+                        <span className={styles.product_name}>{currProduct?.name || "Unavailable"}</span>
+                        <span className={styles.product_price}>{currProduct?.variants?.[0]?.price ?? "Unavailable"}</span>
                         <button className={styles.buy_now_btn} onClick={handleBuyNowClick}>
                           BUY NOW
                         </button>

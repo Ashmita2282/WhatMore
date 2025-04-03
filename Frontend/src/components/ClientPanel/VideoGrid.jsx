@@ -138,7 +138,7 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
             if (response.ok) {
                 await fetchVideoUrl();  // ✅ Fetch fresh data after updating
 
-                // setFetchedUrls((prev) => ({ ...prev, [videoId]: newUrl })); // Update displayed URL
+                setFetchedUrls((prev) => ({ ...prev, [videoId]: newUrl })); // Update displayed URL
                 setShowOptions((prev) => ({ ...prev, [videoId]: false })); // Hide options
                 setNewUrl(""); // Reset input
             } else {
