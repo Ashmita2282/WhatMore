@@ -59,7 +59,7 @@ const getFacebookPages = async (req, res) => {
       return res.status(400).json({ error: "Missing User Access Token" });
     }
 
-    const response = await axios.get(`https://graph.facebook.com/v21.0/me/accounts`, {
+    const response = await axios.get(`https://graph.facebook.com/v13.0/me/accounts`, {
       params: { access_token: ACCESS_TOKEN },
     });
 
@@ -143,7 +143,7 @@ const getInstagramAccount = async (req, res) => {
 
     // Step 1: Get Instagram Business Account ID
     const pageResponse = await axios.get(
-      `https://graph.facebook.com/v21.0/${PAGE_ID}?fields=instagram_business_account`,
+      `https://graph.facebook.com/v13.0/${PAGE_ID}?fields=instagram_business_account`,
       { params: { access_token: ACCESS_TOKEN } }
     );
 
@@ -155,7 +155,7 @@ const getInstagramAccount = async (req, res) => {
 
     // Step 2: Get Instagram Account Name and Username
     const instaResponse = await axios.get(
-      `https://graph.facebook.com/v21.0/${INSTA_ID}?fields=id,name,username&access_token=${ACCESS_TOKEN}`
+      `https://graph.facebook.com/v13.0/${INSTA_ID}?fields=id,name,username&access_token=${ACCESS_TOKEN}`
     );
 
     return res.json({
@@ -267,7 +267,7 @@ const fetchVideo = async (req, res) => {
   }
 
   try {
-    const response = await axios.get(`https://graph.facebook.com/v21.0/${INSTA_ID}/media?fields=id,media_type,media_url,caption,like_count&access_token=${PAGE_ACCESS_TOKEN}`);
+    const response = await axios.get(`https://graph.facebook.com/v13.0/${INSTA_ID}/media?fields=id,media_type,media_url,caption,like_count&access_token=${PAGE_ACCESS_TOKEN}`);
     const reels = response.data.data.filter((item) => item.media_type === "VIDEO");
     res.json(reels);
   } catch (error) {
