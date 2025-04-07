@@ -1,8 +1,11 @@
 import React from "react";
 
 const Integration = () => {
+
+ const store_id = localStorage.getItem("store_id"); // Directly retrieve store ID
+
   const iframeCode = `<iframe
-  src="https://nodejs.gristip.com/videoGrid/b8afeb60"
+  src="https://nodejs.gristip.com/videoGrid/${store_id}"
   width="100%"
   height="700px"
   style="border: none;"
@@ -15,7 +18,7 @@ const Integration = () => {
   </head>
   <body>
     <iframe
-      src="https://nodejs.gristip.com/landing"
+      src="https://nodejs.gristip.com/videoGrid/${store_id}"
       width="100%"
       height="700px"
       style="border: none;"
@@ -26,7 +29,7 @@ const Integration = () => {
   const reactCode = `const IntegrationWidget = () => {
   return (
     <iframe
-      src="https://nodejs.gristip.com/landing"
+      src="https://nodejs.gristip.com/videoGrid/${store_id}"
       width="100%"
       height="700px"
       style={{ border: 'none' }}
@@ -45,7 +48,7 @@ export default IntegrationWidget;`;
     <div className="bg-white p-6 rounded-xl shadow-lg max-w-3xl mx-auto mt-10">
       <h2 className="text-2xl font-semibold mb-4 text-gray-800">📥 Embed with iFrame</h2>
       <p className="mb-3 text-gray-600">
-        Use the following code snippet to embed the integration widget inside any website.
+        Use the following code snippet to embed the carousel in your website.
       </p>
 
       <div className="relative bg-gray-900 text-white text-sm rounded-lg p-4 font-mono">

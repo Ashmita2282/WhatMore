@@ -69,10 +69,12 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  background-color: #1877F2;
+  color: white;
   transition: background 0.3s ease-in-out;
 }
 
-.btn:first-child {
+/* .btn:first-child {
   background-color: #1877F2;
   color: white;
 }
@@ -80,7 +82,7 @@
 .btn:last-child {
   background-color: #40db64;
   color: white;
-}
+} */
 
 .btn:hover {
   opacity: 0.8;

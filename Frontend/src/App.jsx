@@ -153,7 +153,7 @@ const App = () => {
       <Route path="/clientPage" element={<DashboardLayoutBranding />} />
       <Route path="/videoGrid/:store_id" element={<VideoGrid videos={videos} handleVideoClick={handleVideoClick} />} />
       <Route path="/facebook" element={<FacebookAuth />} />
-      <Route path="/inte" element={<Integration/>}/>
+      <Route path="/integration" element={<Integration/>}/>
       <Route path="/shopify" element={<ManualShopifyConnect />} />
       <Route path="/superadmin" element={<SuperAdminHome />} />
     </Routes>

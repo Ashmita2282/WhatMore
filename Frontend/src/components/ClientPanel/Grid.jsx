@@ -151,11 +151,6 @@ const Grid = ({ closeSlider, currentPost, videos }) => {
     }
   };
 
-  const handleAnimationEnd = (e) => {
-    console.log("Animation completed for element:", e.target.className);
-    setAnimation("");
-  };
-
   // Fetch the current add-to-cart count
   const fetchAndUpdateCartCount = async () => {
     try {

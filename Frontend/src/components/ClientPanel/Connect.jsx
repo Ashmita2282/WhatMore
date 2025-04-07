@@ -15,6 +15,10 @@ const store_id = localStorage.getItem("store_id"); // Directly retrieve store ID
     navigate(`/videoGrid/${store_id}`);
   }
 
+  const handleSiteClick = () => {
+    navigate(`/integration`);
+  }
+
   return (
     <div className={styles.outside_container}>
     <div className={styles.container}>
@@ -26,6 +30,7 @@ const store_id = localStorage.getItem("store_id"); // Directly retrieve store ID
         <button className={styles.btn} onClick={redirectToFacebookLogin}>Connect</button>
         <button className={styles.btn} onClick={handleLoadClick}>Load Data</button>
       </div>
+      <button className={styles.btn} onClick={handleSiteClick}>Add to site</button>
     </div>
     </div>
     </div>
