@@ -12,6 +12,7 @@ import SuperAdminHome from "./pages/SuperAdmin/SuperAdminHome";
 import FacebookAuth from "./components/ClientPanel/FacebookAuth";
 import VideoGrid from "./components/ClientPanel/VideoGrid";
 import Grid from "./components/ClientPanel/Grid";
+import Integration from "./components/ClientPanel/Integration";
 
 const App = () => {
 
@@ -150,8 +151,9 @@ const App = () => {
       <Route path="/login" element={<Login/>} />
       <Route path="/client" element={<ClientHome />} />
       <Route path="/clientPage" element={<DashboardLayoutBranding />} />
-      <Route path="/videoGrid" element={<VideoGrid videos={videos} handleVideoClick={handleVideoClick} />} />
+      <Route path="/videoGrid/:store_id" element={<VideoGrid videos={videos} handleVideoClick={handleVideoClick} />} />
       <Route path="/facebook" element={<FacebookAuth />} />
+      <Route path="/inte" element={<Integration/>}/>
       <Route path="/shopify" element={<ManualShopifyConnect />} />
       <Route path="/superadmin" element={<SuperAdminHome />} />
     </Routes>

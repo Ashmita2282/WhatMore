@@ -28,6 +28,8 @@ function Login() {
       );
       
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("store_id", response.data.user.store_id); 
+
       setMessage(response.data.message);
       setIsSuccess(true);
       console.log("Login successful", response.data);

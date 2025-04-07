@@ -3,14 +3,14 @@ import { Pencil } from 'lucide-react'; // Importing the edit icon
 import styles from './profileContent.module.css';
 
 const ProfileContent = () => {
-    const [profile, setProfile] = useState({ name: '', email: '' });
+    const [profile, setProfile] = useState({ name: '', email: '', store_id: '' });
     const [isEditing, setIsEditing] = useState(false);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await fetch('http://localhost:5000/client/profile', {
+                const response = await fetch('http://localhost:5000/client/getProfile', {
                     credentials: 'include', // Ensure cookies/session are included if needed
                 });
 
@@ -117,6 +117,7 @@ const ProfileContent = () => {
                 <>
                     <p className={styles.profileText}><strong>Name:</strong> {profile.name}</p>
                     <p className={styles.profileText}><strong>Email:</strong> {profile.email}</p>
+                    <p className={styles.profileText}><strong>Store ID:</strong> {profile.store_id}</p>
                 </>
             )}
         </div>

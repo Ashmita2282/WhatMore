@@ -25,7 +25,7 @@ const getClientProfile = async (req, res) => {
         if (!client) {
             return res.status(404).json({ error: "Client not found" });
         }
-
+        
         res.json(client);
     } catch (error) {
         console.error("Error fetching client profile:", error.message);

@@ -4,14 +4,16 @@ import styles from "./Connect.module.css";
 
 const Connect = () => {
 const navigate=useNavigate();
+const store_id = localStorage.getItem("store_id"); // Directly retrieve store ID
 
   const redirectToFacebookLogin = () => {
     window.location.href = "http://localhost:5000/auth/facebook";
   };
 
   const handleLoadClick = () => {
-    navigate('/videoGrid')
-  };
+    console.log(`store id from connect.jsx: ${store_id}`);
+    navigate(`/videoGrid/${store_id}`);
+  }
 
   return (
     <div className={styles.outside_container}>
