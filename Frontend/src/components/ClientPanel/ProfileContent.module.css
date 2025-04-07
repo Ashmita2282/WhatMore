@@ -1,36 +1,9 @@
-:root {
-    --bg-color: #f9f9f9;
-    --text-color: #000;
-    --input-bg: #fff;
-    --input-border: #ccc;
-    --heading-underline: #007bff;
-    --edit-icon-color: #007bff;
-    --edit-icon-hover: #0056b3;
-    --save-btn-bg: #28a745;
-    --cancel-btn-bg: #dc3545;
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --bg-color: #1f1f1f;
-        --text-color: #f0f0f0;
-        --input-bg: #2a2a2a;
-        --input-border: #555;
-        --heading-underline: #339aff;
-        --edit-icon-color: #339aff;
-        --edit-icon-hover: #1a73e8;
-        --save-btn-bg: #2ecc71;
-        --cancel-btn-bg: #e74c3c;
-    }
-}
-
 .profileContainer {
     max-width: 400px;
     margin: 20px;
     padding: 20px;
     border-radius: 10px;
-    background: var(--bg-color);
-    color: var(--text-color);
+    background: #f9f9f9;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     font-family: Arial, sans-serif;
     text-align: left;
@@ -40,9 +13,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 20px; /* Space below header */
     position: relative;
-    padding-bottom: 5px;
+    padding-bottom: 5px; /* Space between text and underline */
 }
 
 .heading {
@@ -54,20 +27,20 @@
 .heading::after {
     content: "";
     display: block;
-    width: 45%;
-    height: 3px;
-    background-color: var(--heading-underline);
-    margin-top: 1px;
+    width: 45%; /* Adjust to make it smaller */
+    height: 3px; /* Thickness of the underline */
+    background-color: #007bff; /* Color of the underline */
+    margin-top: 1px; /* Space between text and underline */
 }
 
 .editIcon {
     cursor: pointer;
-    color: var(--edit-icon-color);
+    color: #007bff;
     transition: color 0.3s ease;
 }
 
 .editIcon:hover {
-    color: var(--edit-icon-hover);
+    color: #0056b3;
 }
 
 .label {
@@ -80,9 +53,7 @@
     width: 100%;
     padding: 8px;
     margin-top: 5px;
-    border: 1px solid var(--input-border);
-    background-color: var(--input-bg);
-    color: var(--text-color);
+    border: 1px solid #ccc;
     border-radius: 5px;
 }
 
@@ -95,14 +66,14 @@
 }
 
 .saveBtn {
-    background-color: var(--save-btn-bg);
+    background-color: #28a745;
     color: white;
     align-self: flex-start;
     margin-left: 0;
 }
 
 .cancelBtn {
-    background-color: var(--cancel-btn-bg);
+    background-color: #dc3545;
     color: white;
     margin-left: 10px;
 }
