@@ -78,6 +78,9 @@
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { v4: uuidv4 } = require('uuid');
+
+
 require("dotenv").config();
 const {
   createSuperAdmin,
@@ -88,6 +91,11 @@ const{
   createClient,
   findClientByEmail,
 } = require("../models/clientModel");
+
+// Function to generate a unique store ID
+const generateStoreId = () => {
+  return `${uuidv4().slice(0, 8)}`;
+};
 
 // Signup Controller for Superadmin (or admin, based on role)
 const signup = async (req, res) => {
@@ -103,6 +111,7 @@ const signup = async (req, res) => {
     // Hash the password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
+    const store_id = generateStoreId(); // Generate a unique store ID
 
     let newUser; 
 
@@ -110,7 +119,7 @@ const signup = async (req, res) => {
     if (role === "superadmin") {
       newUser = await createSuperAdmin(name, email, hashedPassword, role);
     } else if (role === "client") {
-      newUser = await createClient(name, email, hashedPassword, role);
+      newUser = await createClient(name, email, hashedPassword, store_id, role);
     } else {
       return res.status(400).json({ message: "Invalid role" });
     }
@@ -130,39 +139,50 @@ const login = async (req, res) => {
   try {
     const { role, email, password } = req.body;
 
-    console.log(req.body);
+    if (!role || !email || !password) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
 
-    // Find user
-    let user = "";
+    console.log("Login Request:", req.body);
+
+    let user = null;
 
     if (role === "superadmin") {
       user = await findSuperAdminByEmail(email);
     } else if (role === "client") {
       user = await findClientByEmail(email);
     } else {
-      return res.status(400).json({ message: "Invalid role" });
+      return res.status(400).json({ message: "Invalid role specified" });
     }
 
     if (!user) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid email or password" });
     }
 
     // Verify password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid email or password" });
     }
 
     // Generate token
-    const token = jwt.sign(
-      { id: user.id, name:user.name, email: user.email, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
-    );
+    const tokenPayload = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    };
 
-     // Set token in cookies
+    if (role === "client") {
+      tokenPayload.store_id = user.store_id; // Add store_id for clients
+    }
+
+    const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+    // Set token in cookies (HTTP Only)
     res.cookie("token", token, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000 });
 
+    // Send response
     res.json({
       message: "Login successful",
       token,
@@ -171,11 +191,13 @@ const login = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        ...(role === "client" && { store_id: user.store_id }), // Only add store_id for clients
       },
     });
+
   } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: err.message });
+    console.error("Login Error:", err.message);
+    res.status(500).json({ error: "Server error. Please try again later." });
   }
 };
 

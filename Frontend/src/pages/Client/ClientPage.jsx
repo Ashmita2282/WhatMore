@@ -79,10 +79,11 @@ function DashboardLayoutBranding(props) {
     <AppProvider
       navigation={NAVIGATION}
       branding={{
-        logo: <img src="https://mui.com/static/logo.png" alt="MUI logo" />,
-        title: 'Insta Videos',
+        logo: <img src="./img/vidscommerce.png" alt="MUI logo" />,
+        title: <span className="text-3xl font-bold text-black dark:text-white">Insta Videos</span>,
         homeUrl: '/toolpad/core/introduction',
       }}
+            
       router={router}
       theme={demoTheme}
       window={demoWindow}
