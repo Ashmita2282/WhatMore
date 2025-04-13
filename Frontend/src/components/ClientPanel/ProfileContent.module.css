@@ -1,105 +1,134 @@
-.profileContainer {
+:root {
+    --bg-color: #f9f9f9;
+    --text-color: #000;
+    --input-bg: #fff;
+    --input-border: #ccc;
+    --edit-icon: #007bff;
+    --edit-icon-hover: #0056b3;
+    --underline: #007bff;
+    --save-btn-bg: #28a745;
+    --cancel-btn-bg: #dc3545;
+    --button-text: #fff;
+  }
+  
+  [data-toolpad-color-scheme="dark"] {
+    --bg-color: #1e1e1e;
+    --text-color: #f0f0f0;
+    --input-bg: #2c2c2c;
+    --input-border: #555;
+    --edit-icon: #66b2ff;
+    --edit-icon-hover: #3399ff;
+    --underline: #66b2ff;
+    --save-btn-bg: #34d058;
+    --cancel-btn-bg: #f85149;
+    --button-text: #fff;
+  }
+  
+  .profileContainer {
     max-width: 400px;
     margin: 20px;
     padding: 20px;
     border-radius: 10px;
-    background: #f9f9f9;
+    background: var(--bg-color);
+    color: var(--text-color);
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     font-family: Arial, sans-serif;
     text-align: left;
-}
-
-.header {
+  }
+  
+  .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px; /* Space below header */
+    margin-bottom: 20px;
     position: relative;
-    padding-bottom: 5px; /* Space between text and underline */
-}
-
-.heading {
+    padding-bottom: 5px;
+  }
+  
+  .heading {
     font-size: 24px;
     font-weight: bold;
     position: relative;
-}
-
-.heading::after {
+  }
+  
+  .heading::after {
     content: "";
     display: block;
-    width: 45%; /* Adjust to make it smaller */
-    height: 3px; /* Thickness of the underline */
-    background-color: #007bff; /* Color of the underline */
-    margin-top: 1px; /* Space between text and underline */
-}
-
-.editIcon {
+    width: 45%;
+    height: 3px;
+    background-color: var(--underline);
+    margin-top: 1px;
+  }
+  
+  .editIcon {
     cursor: pointer;
-    color: #007bff;
+    color: var(--edit-icon);
     transition: color 0.3s ease;
-}
-
-.editIcon:hover {
-    color: #0056b3;
-}
-
-.label {
+  }
+  
+  .editIcon:hover {
+    color: var(--edit-icon-hover);
+  }
+  
+  .label {
     font-weight: bold;
     display: block;
     margin-top: 10px;
-}
-
-.input {
+  }
+  
+  .input {
     width: 100%;
     padding: 8px;
     margin-top: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--input-border);
     border-radius: 5px;
-}
-
-.button {
+    background-color: var(--input-bg);
+    color: var(--text-color);
+  }
+  
+  .button {
     margin-top: 15px;
     padding: 8px 12px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-}
-
-.saveBtn {
-    background-color: #28a745;
-    color: white;
+    color: var(--button-text);
+  }
+  
+  .saveBtn {
+    background-color: var(--save-btn-bg);
     align-self: flex-start;
     margin-left: 0;
-}
-
-.cancelBtn {
-    background-color: #dc3545;
-    color: white;
+  }
+  
+  .cancelBtn {
+    background-color: var(--cancel-btn-bg);
     margin-left: 10px;
-}
-
-.profileText {
+  }
+  
+  .profileText {
     font-size: 16px;
     margin: 5px 0;
-}
-
-/* Responsive */
-@media (max-width: 480px) {
+  }
+  
+  /* Responsive */
+  @media (max-width: 480px) {
     .profileContainer {
-        max-width: 100%;
-        padding: 15px;
+      max-width: 100%;
+      padding: 15px;
     }
-
+  
     .heading {
-        font-size: 20px;
+      font-size: 20px;
     }
-
+  
     .input {
-        font-size: 14px;
+      font-size: 14px;
     }
-
+  
     .button {
-        font-size: 14px;
-        padding: 6px 10px;
+      font-size: 14px;
+      padding: 6px 10px;
     }
-}
+  }
+  
