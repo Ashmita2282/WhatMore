@@ -1,5 +1,6 @@
 import React from "react";
-import BrandSection from "./BrandSection";
+import BrandSlider from "./BrandSection";
+
 function HeroSection() {
   return (
     <div className="flex flex-col justify-center items-center bg-gray-50 w-full">
@@ -16,11 +17,11 @@ function HeroSection() {
           <span className="font-bold">simplified</span>
         </h1>
 
-        <p className="mt-2 text-[#6a6264] text-center text-sm font-semibold leading-6 animate-slideUp">
+        <p className="mt-2 text-[#6a6264] text-center text-sm font-semibold leading-6 animate-slideUp mb-9">
           Effortlessly create and use highly converting videos for your Website,
           Ads, Marketplace listings, and Socials.
         </p>
-        <div className="mt-6 flex justify-center gap-4 text-sm animate-slideUp">
+        <div className="mt-6 flex justify-center gap-4 text-sm animate-slideUp mb-4">
           <button className="bg-black text-white px-10 py-2 rounded-lg  flex flex-row justify-center items-center">
             Try for FREE
             <span className="pl-2">
@@ -85,7 +86,7 @@ function HeroSection() {
             Download Shopify App
           </button>
         </div>
-        <p className="mt-4 flex justify-center items-center text-xs font-semibold animate-slideUp">
+        <p className="mt-4 flex justify-center items-center text-xs font-semibold animate-slideUp mb-7">
           Rated 5.0
           <span className="p-1">
             <svg
@@ -187,27 +188,27 @@ function HeroSection() {
         </p>
       </section>
 
-      <section className="bg-[url('C:\Users\dell\Desktop\WhatMore\src\assets\HomePageAssets\bg.jpg')] bg-cover w-full  flex items-center justify-center">
-        <div className="relative flex items-center justify-center m-1 bg-center h-96 rounded-lg w-[80%]">
+      {/* <section className="bg-[url('/src/assets/HomePageAssets/bg.jpg')] bg-cover bg-center w-full flex items-center justify-center py-8">
+        <div className="relative flex flex-wrap justify-center items-center bg-center h-auto w-[90%] max-w-5xl rounded-lg p-4 md:h-96">
           {/* Content Card */}
-          <div className="relative z-10 flex w-full">
-            <div className="rounded-lg bg-[rgba(21,20,20,.08)] backdrop-blur-sm w-40"></div>
-            {/* Left Image */}
+          {/* <div className="relative z-10 flex flex-wrap md:flex-nowrap w-full justify-center gap-4">
+            <div className="hidden md:block rounded-lg bg-[rgba(21,20,20,.08)] backdrop-blur-sm w-32 lg:w-40"></div> */}
 
-            <div className="w-56 h-full flex justify-center items-center">
+            {/* Left Image */}
+            {/* <div className="w-40 md:w-56 flex justify-center items-center">
               <img
                 src="https://d1rem61pdixo0z.cloudfront.net/website-cdn/public/img/home/static/left-hero.png"
                 alt="Left Hero"
                 loading="lazy"
                 decoding="async"
-                className="rounded-lg shadow-md w-48"
+                className="rounded-lg shadow-md w-32 md:w-48"
               />
-            </div>
+            </div> */}
 
             {/* Video */}
-            <div className="w-40 h-full flex justify-center items-center">
+            {/* <div className="w-32 md:w-40 flex justify-center items-center">
               <video
-                className="video-player w-full h-auto rounded-lg shadow-md"
+                className="video-player w-full max-w-[80px] md:max-w-full h-auto rounded-lg shadow-md"
                 src="https://d1rem61pdixo0z.cloudfront.net/website-cdn/public/img/studio/studio_phone.mp4"
                 poster="https://d1rem61pdixo0z.cloudfront.net/website-cdn/public/img/studio/phone.webp"
                 autoPlay
@@ -219,22 +220,23 @@ function HeroSection() {
               </video>
             </div>
 
-            {/* Right Image */}
-            <div className="w-56 h-full flex justify-center items-center backdrop-blur-sm">
+            Right Image */}
+            {/* <div className="w-40 md:w-56 flex justify-center items-center backdrop-blur-sm">
               <img
                 src="https://d1rem61pdixo0z.cloudfront.net/website-cdn/public/img/home/static/right-hero.png"
                 alt="Right Hero"
                 loading="lazy"
                 decoding="async"
-                className="rounded-lg shadow-md w-48"
+                className="rounded-lg shadow-md w-32 md:w-48"
               />
             </div>
-            <div className="rounded-lg bg-[rgba(21,20,20,.08)] backdrop-blur-sm w-40"></div>
+
+            <div className="hidden md:block rounded-lg bg-[rgba(21,20,20,.08)] backdrop-blur-sm w-32 lg:w-40"></div>
           </div>
         </div>
-      </section>
+      </section> */} 
 
-      <BrandSection />
+      <BrandSlider />
     </div>
   );
 }

@@ -9,9 +9,6 @@ let PAGE_ID = ""; // Store the selected Facebook Page ID
 let INSTA_ID = ""; // Store the Instagram Business Account ID
 let PAGE_ACCESS_TOKEN = ""; // Store the Page Access Token
 
-const exampleRoute = (req, res) => {
-  res.send("Hello from Facebook API!");
-};
 
 const authFacebook = (req, res) => {
   console.log("auth/facebook is running");
@@ -376,5 +373,4 @@ module.exports = {
   getPageAccessToken,
   saveVideos,
   getVideoUrlById,
-  exampleRoute
 };

@@ -1,9 +1,9 @@
 import React from "react";
 
-function ResourceMenuPopUp() {
+function ResourceMenuPopUp({ closeDropdown }) {
   return (
-    <div className="absolute top-full left-0 mt-2 w-40 bg-white shadow-lg rounded-lg p-2">
-      <a href="#" className=" px-4 py-2 hover:bg-gray-100 flex">
+    <div className="absolute top-full left-0 mt-2 w-64 bg-white shadow-lg rounded-lg p-2">
+      <a href="#" className=" px-4 py-2 hover:bg-gray-100 flex" onClick={closeDropdown}>
         Blogs
         <span className="pl-4">
           <svg
@@ -58,7 +58,7 @@ function ResourceMenuPopUp() {
           </svg>
         </span>
       </a>
-      <a href="#" className="flex px-4 py-2 hover:bg-gray-100">
+      <a href="#" className="flex px-4 py-2 hover:bg-gray-100" onClick={closeDropdown}>
         BFCM Playbook
         <span className="pl-4">
           <svg
@@ -113,7 +113,7 @@ function ResourceMenuPopUp() {
           </svg>
         </span>
       </a>
-      <a href="#" className="flex px-4 py-2 hover:bg-gray-100">
+      <a href="#" className="flex px-4 py-2 hover:bg-gray-100" onClick={closeDropdown}>
         Shark Tank Free Playbook{" "}
         <span className="pl-4">
           <svg

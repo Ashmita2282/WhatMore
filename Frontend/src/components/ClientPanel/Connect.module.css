@@ -1,6 +1,5 @@
 * {
   box-sizing: border-box;
-  font-family: "Poppins";
 }
 
 
@@ -72,6 +71,7 @@
   background-color: #1877F2;
   color: white;
   transition: background 0.3s ease-in-out;
+  margin-bottom: 8px;
 }
 
 /* .btn:first-child {
@@ -124,7 +124,6 @@
   }
 
   .btn {
-    width: 100%;
     padding: 10px;
     font-size: 0.9rem;
   }

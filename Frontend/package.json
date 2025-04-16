@@ -25,6 +25,8 @@
     "react-countup": "^6.5.3",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.2.0",
+    "react-slick": "^0.30.3",
+    "slick-carousel": "^1.8.1",
     "swiper": "^11.2.5",
     "swiper.js": "^1.0.0"
   },

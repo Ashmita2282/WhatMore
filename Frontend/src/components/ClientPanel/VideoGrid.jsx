@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import "swiper/css";
 import "swiper/css/navigation";
 import styles from "./VideoGrid.module.css";
+import { useRef } from "react";
+
 
 const VideoGrid = ({ videos, handleVideoClick }) => {
     const navigate = useNavigate();
@@ -13,6 +15,7 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
     const [fetchedUrls, setFetchedUrls] = useState({}); // Stores URLs fetched from backend
     const [newUrl, setNewUrl] = useState(""); // Stores user input for new URL
 
+    const swiperRef = useRef(null);
     const token = localStorage.getItem("token");
 
 //    console.log(`videos from videoGrid:${videos}`)
@@ -126,53 +129,78 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
 
     // Update video URL in backend
     const updateVideoUrl = async (videoId) => {
+        if (!newUrl) {
+            alert("Please enter a valid URL.");
+            return;
+        }
+
+        const token = localStorage.getItem("token"); // Get token from storage
+        if (!token) {
+            alert("User is not authenticated. Please log in.");
+            return;
+        }
+
         try {
             const response = await fetch("http://localhost:5000/client/updateVideoUrl", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ video_id: videoId, extracted_url: newUrl }),
-                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}` // ✅ Include token
+                },
+                body: JSON.stringify({ video_id: videoId, caption: newUrl })
             });
 
             const data = await response.json();
-            if (response.ok) {
-                await fetchVideoUrl();  // ✅ Fetch fresh data after updating
 
-                setFetchedUrls((prev) => ({ ...prev, [videoId]: newUrl })); // Update displayed URL
-                setShowOptions((prev) => ({ ...prev, [videoId]: false })); // Hide options
-                setNewUrl(""); // Reset input
-            } else {
-                console.error("Error updating video URL:", data.error);
-            }
+            if (!response.ok) {
+                throw new Error(data.error || "Failed to update URL");
+            } 
+
+            alert("Caption updated successfully! Please refresh the page.");
+            console.log('Updating caption to:', newUrl); // Check the value of newUrl
+
+
+            // ✅ Close the edit option after updating
+            setShowOptions((prev) => ({
+                ...prev,
+                [videoId]: false, // Close the current edit container
+            }));
+
+            // Optionally, reset input field
+            setNewUrl("");
         } catch (error) {
-            console.error("Network error while updating video URL:", error);
+            console.error("Error updating URL:", error);
+            alert(error.message);
         }
     };
 
-    const toggleOptions = (videoId) => {
-        setShowOptions(prev => ({
-            ...prev,
-            [videoId]: !prev[videoId]
-        }));
 
-        // Fetch video URL when user opens options
+    const toggleOptions = (videoId) => {
+        setShowOptions((prev) => {
+            const newState = Object.keys(prev).reduce((acc, key) => {
+                acc[key] = false; // Close all other open edit options
+                return acc;
+            }, {});
+            return { ...newState, [videoId]: !prev[videoId] }; // Toggle only the clicked one
+        });
         if (!showOptions[videoId]) {
             fetchVideoUrl(videoId);
         }
+
+        if (swiperRef.current) {
+            swiperRef.current.autoplay.stop();  // Stop autoplay
+            swiperRef.current.allowTouchMove = false; // Disable swipe
+            swiperRef.current.loop = false; // Stop looping
+        }
     };
-
-    // if (!videos.length || !products.length) {
-    //     return <p>Loading videos and products...</p>;
-    // }
-
     if (!videos.length) {
         return <p>Loading videos...</p>;
     }
     if (!products.length) {
         return <p>Loading products...</p>;
     }
-    
 
+    
     return (
         <>
             <div className={styles.header}>
@@ -193,10 +221,14 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
                     }}
                     breakpoints={{
                         100: { slidesPerView: 2 },
-                        425: { slidesPerView: 5 },
-                        1000: { slidesPerView: 6 },
+                        511: { slidesPerView: 3 },
+                        901: { slidesPerView: 4 },
+                        1110: { slidesPerView: 5 },
+                        1365: { slidesPerView: 6 },
                     }}
+                    onSwiper={(swiper) => (swiperRef.current = swiper)} // Stores swiper instance
                 >
+
                     {videos.map((video) => {
                         const extractedHttpsUrl = fetchedUrls[video.id] || ""; // URL fetched from backend
                         const currProduct = extractedHttpsUrl
@@ -212,8 +244,14 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
                                         loop
                                         muted
                                         className={styles["video-rectangle"]}
-                                        onClick={() => handleVideoClick(video)}
-                                    />
+                                   onClick={(e) => {
+                                            handleVideoClick(video)
+                                            e.stopPropagation();
+                                            // stopCarousel(e); // Stop carousel when edit icon is clicked
+                                            // toggleOptions(video.id);
+                                        }}                                   
+                                 />
+
                                     <div className={styles["video-info"]} onClick={() => handleVideoClick(video)}>
                                         <span className={styles["product-name"]}>{currProduct?.name || "Unavailable"}</span>
                                         <span className={styles["product-price"]}>{currProduct?.price || "Unavailable"}</span>
@@ -222,6 +260,7 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
                                             src="../images/edit.png"
                                             alt="edit_image"
                                             className={styles.redirect_icon}
+                                            title="Click to edit the URL"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 toggleOptions(video.id);
@@ -230,52 +269,63 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
 
                                         {showOptions[video.id] && (
                                             <div className={styles["options-container"]}>
-                                                {extractedHttpsUrl ? (
-                                                    <>
-                                                        <button onClick={() => window.open(extractedHttpsUrl, "_blank")}>
-                                                            View Product
-                                                        </button>
-                                                        <input
-                                                            type="text"
-                                                            placeholder="Enter new URL"
-                                                            value={newUrl}
-                                                            onChange={(e) => setNewUrl(e.target.value)}
-                                                            onClick={(e) => e.stopPropagation()}
-                                                        />
-                                                        <button onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            updateVideoUrl(video.id);
-                                                        }}>
-                                                            Update URL
-                                                        </button>
-                                                        <button
-                                                            className="clear-button"
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                setNewUrl(""); // Clears the input field
-                                                            }}
-                                                        >
-                                                            X
-                                                        </button>
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <input
-                                                            type="text"
-                                                            placeholder="Enter new URL"
-                                                            value={newUrl}
-                                                            onChange={(e) => setNewUrl(e.target.value)}
-                                                            onClick={(e) => e.stopPropagation()}
-                                                        />
-                                                        <button onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            updateVideoUrl(video.id);
-                                                        }}>
-                                                            Add URL
-                                                        </button>
-                                                    </>
-                                                )}
+                                            <div className={styles["input-container"]}>
+                                                <input
+                                                    type="text"
+                                                    placeholder="Enter new URL"
+                                                    value={newUrl}
+                                                    onChange={(e) => setNewUrl(e.target.value)}
+                                                    onClick={(e) => e.stopPropagation()}
+                                                />
+                                                {/* Tick Button (✔) beside input */}
+                                                <button className={styles["tick-button"]} onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    updateVideoUrl(video.id);
+                                                }}>
+                                                    <svg width="35" height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 12l5 5L19 7" stroke="white" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+                                                    </svg>
+                                                </button>
                                             </div>
+                                            {extractedHttpsUrl ? (
+                                                <>
+                                                    <div className={styles["button-group"]}>
+                                                        {/* ✅ View Product button remains! */}
+                                                        <button onClick={() => window.open(extractedHttpsUrl, "_blank")}>View Product</button>
+
+                                                        {/* ❌ Close Button */}
+                                                        <button className={styles["close-button"]} onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            setShowOptions((prev) => ({ ...prev, [video.id]: false })); // Close the container
+
+                                                            // ✅ Resume carousel movement
+                                                            if (swiperRef.current) {
+                                                                swiperRef.current.autoplay.start();  // Restart autoplay
+                                                                swiperRef.current.allowTouchMove = true; // Enable swipe
+                                                                swiperRef.current.loop = true; // Restore looping if needed
+                                                            }
+                                                        }}>Close</button>
+
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <div className={styles["add-button-container"]}>
+                                                    {/* ❌ Close Button (when no extracted URL) */}
+                                                    <button className={styles["close-button"]} onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setShowOptions((prev) => ({ ...prev, [video.id]: false })); // Close the container
+
+                                                        // ✅ Resume carousel movement
+                                                        if (swiperRef.current) {
+                                                            swiperRef.current.autoplay.start();  // Restart autoplay
+                                                            swiperRef.current.allowTouchMove = true; // Enable swipe
+                                                            swiperRef.current.loop = true; // Restore looping if needed
+                                                        }
+                                                    }}>Close</button>
+
+                                                </div>
+                                            )}
+                                        </div>
                                         )}
                                     </div>
                                 </div>

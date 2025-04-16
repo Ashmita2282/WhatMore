@@ -47,11 +47,24 @@ const getClientById = async (id) => {
 };
 
 // Update client profile (only name for now)
-const updateClientById = async (id, name, email) => { 
-  const query = `UPDATE clients SET name = $1, email = $2 WHERE id = $3 RETURNING *`;
-  const { rows } = await pool.query(query, [name, email, id]);
-  return rows[0];
+const updateClientById = async (id, name, email) => {
+  const clientUpdateQuery = `
+    UPDATE clients 
+    SET name = $1, email = $2 
+    WHERE id = $3 
+    RETURNING *`;
+    
+  const clientDetailsUpdateQuery = `
+    UPDATE client_details 
+    SET username = $1 
+    WHERE client_id = $2`;
+
+  const clientResult = await pool.query(clientUpdateQuery, [name, email, id]);
+  await pool.query(clientDetailsUpdateQuery, [name, id]);
+
+  return clientResult.rows[0];
 };
+
 
 
 module.exports = { createClient, deleteClient, getAllClients, findClientByEmail, getClientById, updateClientById };

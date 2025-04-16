@@ -1,4 +1,3 @@
-
 import { BrowserRouter as Router, Route, Routes, BrowserRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios"
@@ -13,6 +12,11 @@ import FacebookAuth from "./components/ClientPanel/FacebookAuth";
 import VideoGrid from "./components/ClientPanel/VideoGrid";
 import Grid from "./components/ClientPanel/Grid";
 import Integration from "./components/ClientPanel/Integration";
+import SuperAdminPanel from "./components/SuperAdminPanel/SuperAdminPanel";
+import Contact from "./pages/HomePage/Contact";
+import TermsAndConditions from "./pages/HomePage/Tnc";
+import PrivacyPolicy from "./pages/HomePage/Privacy";
+import AboutUs from "./pages/HomePage/About";
 
 const App = () => {
 
@@ -144,7 +148,7 @@ const App = () => {
 
 
   return (
-    <BrowserRouter>
+    <>
     <Routes>
       <Route path="/" element={<Home/>} />
       <Route path="/signup" element={<SignUp/>} />
@@ -156,6 +160,11 @@ const App = () => {
       <Route path="/integration" element={<Integration/>}/>
       <Route path="/shopify" element={<ManualShopifyConnect />} />
       <Route path="/superadmin" element={<SuperAdminHome />} />
+      <Route path="/superadmin-dashboard" element={<SuperAdminPanel />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/terms&conditions" element={<TermsAndConditions />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/about-us" element={<AboutUs />} />
     </Routes>
       {currentPost && (
           <Grid
@@ -165,7 +174,7 @@ const App = () => {
           />
         )}
    
-   </BrowserRouter>
+   </>
 
   );
 };

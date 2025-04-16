@@ -20,16 +20,9 @@ const NAVIGATION = [
   { segment: 'dashboard', title: 'Dashboard', icon: <DashboardIcon /> },  
   { segment: 'reports', title: 'Reports', icon: <BarChartIcon /> },
   { segment: "profile", title: "Profile", icon: <AccountCircleIcon />, position: "bottom" },
-  { segment: "logout", title: "Logout", icon: <ExitToAppIcon />, position: "bottom", onClick: () => handleLogout() }
+  { segment: "logout", title: "Logout", icon: <ExitToAppIcon />, position: "bottom"}
   ];
 
-// Logout handler function
-const handleLogout = () => {
-  // Clear authentication tokens or session storage
-  localStorage.removeItem('authToken'); // Example: If storing a token
-  sessionStorage.clear();
-  window.location.href = '/login';
-};
 
 // Theme configuration
 const demoTheme = createTheme({
@@ -38,24 +31,6 @@ const demoTheme = createTheme({
   breakpoints: { values: { xs: 0, sm: 600, md: 600, lg: 1200, xl: 1536 } },
 });
 
-// Dashboard Content Component
-// function DashboardContent() {
-//   return (
-//     <Box sx={{ py: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-//       <Typography variant="h5">Dashboard</Typography>
-//       <Typography variant="body1">This is the dashboard page.</Typography>
-//     </Box>
-//   );
-// }
-
-// function ReportsContent() {
-//   return (
-//     <Box sx={{ py: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-//       <Typography variant="h5">Reports</Typography>
-//       <Typography variant="body1">This is the reports page.</Typography>
-//     </Box>
-//   );
-// }
 
 // Component to handle page rendering based on selected navigation
 function DemoPageContent({ pathname, count }) {
@@ -85,12 +60,23 @@ function DashboardLayoutBranding(props) {
 
   return (
     <AppProvider
-      navigation={NAVIGATION}
-      branding={{
-        logo: <img src="https://mui.com/static/logo.png" alt="MUI logo" />,
-        title: 'Insta Videos',
-        homeUrl: '/toolpad/core/introduction',
-      }}
+    navigation={NAVIGATION}
+    branding={{
+      logo: <img src="./images/vidscommerce.png" alt="Vidscommerce logo" className="h-8" />,
+      title: (
+        <Typography
+          variant="h5"
+          sx={{
+            fontWeight: 'bold',
+            color: 'text.primary',
+          }}
+        >
+          Insta Videos
+        </Typography>
+      ),
+      homeUrl: '/toolpad/core/introduction',
+    }}
+    
       router={router}
       theme={demoTheme}
       window={demoWindow}

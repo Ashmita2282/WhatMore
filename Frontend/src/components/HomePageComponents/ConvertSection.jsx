@@ -1,14 +1,15 @@
+
 import React from "react";
 import CountUp from "react-countup";
 
 function ConvertSection() {
   return (
-    <div>
-      <section className="backdrop-blur-xl text-white min-h-screen flex flex-col mt-12 pt-12 items-center justify-center px-6 text-center">
-        {/* Logo */}
+    <div >
+<section className="backdrop-blur-xl text-white min-h-screen flex flex-col -mt-24 items-center justify-center px-6 text-center">
+{/* Logo */}
         <div className="flex justify-center items-center">
           <div className="h-[0.08rem] w-80 bg-gradient-to-r from-pink-200 to-purple-200"></div>
-          <span className="text-xl font-semibold px-4 text-transparent bg-clip-text bg-gradient-to-r from-[#ee7b9d] to-purple-300">
+          <span className="text-4xl font-semibold px-4 text-transparent bg-clip-text bg-gradient-to-r from-[#ee7b9d] to-purple-300">
             CONVERT
           </span>
 
@@ -20,14 +21,14 @@ function ConvertSection() {
             Turn your marketing videos into{" "}
             <span className="font-bold ">shopping experiences</span>
           </h1>
-          <p className="mt-4 text-gray-300">
+          <p className="mt-4 text-gray-500 pt-4">
             Boost sales and keep customers engaged longer by adding reels-style
             shoppable videos to your site. Watch, click, buy—quick and seamless!
           </p>
         </div>
         {/* Buttons */}
 
-        <div>
+        <div className="pt-7">
           <button className="border bg-black border-gray-400 px-6 py-2 rounded-lg flex flex-row justify-center text-white items-center">
             <span className="pr-2">
               <svg
@@ -156,7 +157,7 @@ function ConvertSection() {
           </p>
         </div>
       </section>
-      <section className="bg-black text-white py-16 px-4">
+      {/* <section className="bg-black text-white py-16 px-4">
         <div className="text-center max-w-4xl mx-auto">
           <h1 className="text-3xl md:text-5xl font-bold mb-4">
             Improve your metrics with data-driven decisions
@@ -203,7 +204,7 @@ function ConvertSection() {
             <p className="text-lg">Impact on site speed</p>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }
