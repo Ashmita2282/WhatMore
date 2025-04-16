@@ -376,38 +376,6 @@ const FacebookAuth = () => {
               </div>
             </div>
            
-
-          {/* <div className={styles.permissionContainer}>
-            <div className={styles.permissionDiv}>
-              <span>public_profile</span>
-              <p>Allows an app to read the Default Public Profile Fields on the User node.</p>
-              </div>
-             <div className={styles.permissionDiv}>
-              <span>email
-              </span>
-              <p>Allows your app to read a person's primary email address.
-              </p>
-            </div>
-            <div className={styles.permissionDiv}>
-              <span>pages_show_list
-              </span>
-              <p>Allows your app to access the list of Pages a person manages.
-              </p>
-            </div>
-            <div className={styles.permissionDiv}>
-              <span>
-
-                instagram_basic
-              </span>
-              <p> Allows your app to read an Instagram account profile's info and media.
-              </p>
-            </div>
-            <div className={styles.permissionDiv} style={{ borderBottom: "1px solid #ccc" }}>
-              <span>business_management</span>
-              <p> Allows your app to read and write with the Business Manager API.</p>
-            </div>
-          </div> */}
-
           <button className={styles.backBtn} onClick={handleBack}>
             Back
           </button>

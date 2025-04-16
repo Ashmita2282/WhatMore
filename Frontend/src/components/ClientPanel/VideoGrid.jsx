@@ -130,7 +130,7 @@ const VideoGrid = ({ videos, handleVideoClick }) => {
     const updateVideoUrl = async (videoId) => {
         if (!newUrl) {
             alert("Please enter a valid URL.");
-            return;
+            return;x
         }
 
         const token = localStorage.getItem("token"); // Get token from storage

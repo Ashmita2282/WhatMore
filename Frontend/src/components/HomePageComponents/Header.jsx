@@ -91,7 +91,7 @@ const Header = () => {
         {/* Left Section: Logo & VidsCommerce */}
         <div className="flex items-center gap-x-3 mr-10">
           <img
-            src="./img/vidscommerce.png"
+            src="./images/vidscommerce.png"
             alt="Logo"
             className="h-8 w-8 sm:h-10 sm:w-10 md:h-10 md:w-10 object-contain"
           />

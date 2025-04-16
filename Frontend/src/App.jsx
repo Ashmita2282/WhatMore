@@ -1,4 +1,3 @@
-
 import { BrowserRouter as Router, Route, Routes, BrowserRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios"
@@ -17,12 +16,13 @@ import Contact from "./pages/HomePage/Contact";
 import TermsAndConditions from "./pages/HomePage/Tnc";
 import PrivacyPolicy from "./pages/HomePage/Privacy";
 import AboutUs from "./pages/HomePage/About";
+import Integration from "./components/ClientPanel/Integration";
 
 const App = () => {
 
   const [videos, setVideos] = useState([]);
   const [currentPost, setCurrentPost] = useState(null);
-  const [count, setCount] = useState(0);
+  // const [count, setCount] = useState(0);
   const httpsUrlRegex = /(https?:\/\/[^\s]+)/g;
   // const location = useLocation();
 
@@ -94,12 +94,49 @@ const App = () => {
       fetchPageAccessToken();
     }, [token]);
 
+    const fetchAndUpdateCount = async () => {
+      try {
+          // Fetch the current count
+          const response = await axios.get("http://localhost:5000/analytics/getCount", {
+              headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+              },
+              withCredentials: true,
+          });
+  
+          let currentCount = parseInt(response.data.count, 10) || 0; 
+          console.log("Fetched Count:", currentCount);
+  
+          // Increment count
+          const newCount = currentCount + 1;
+  
+          // Post the updated count
+          const postResponse = await axios.post(
+              "http://localhost:5000/analytics/postCount",
+              { count: newCount },
+              {
+                  headers: {
+                      Authorization: `Bearer ${token}`,
+                      "Content-Type": "application/json",
+                  },
+                  withCredentials: true,
+              }
+          );
+  
+          console.log("Count updated successfully:", postResponse.data.count);
+          return postResponse.data.count;
+      } catch (error) {
+          console.error("Error in fetch and update count:", error.response ? error.response.data : error.message);
+          return null;
+      }
+  };
+
 
   const handleVideoClick = (video) => {
     setCurrentPost(video);
-    
-    setCount(count + 1);
-  };
+    fetchAndUpdateCount();
+};
 
   const closeSlider = () => {
     setCurrentPost(null);
@@ -113,10 +150,11 @@ const App = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/client" element={<ClientHome />} />
-        <Route path="/clientPage" element={<DashboardLayoutBranding count={count} />} />
-        <Route path="/videoGrid" element={<VideoGrid videos={videos} handleVideoClick={handleVideoClick} />} />
+        <Route path="/clientPage" element={<DashboardLayoutBranding  />} />
+        <Route path="/videoGrid/:store_id" element={<VideoGrid videos={videos} handleVideoClick={handleVideoClick} />} />
         <Route path="/facebook" element={<FacebookAuth />} />
         <Route path="/shopify" element={<ManualShopifyConnect />} />
+        <Route path="/integration" element={<Integration/>}/>
         <Route path="/superadmin" element={<SuperAdminHome />} />
         <Route path="/superadmin-dashboard" element={<SuperAdminPanel />} />
         <Route path="/contact" element={<Contact />} />

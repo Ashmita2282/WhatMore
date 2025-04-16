@@ -26,9 +26,10 @@ function Login() {
           withCredentials: true, // Move inside the config object
         }
       );
-      
 
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("store_id", response.data.user.store_id);
+
       setMessage(response.data.message);
       setIsSuccess(true);
       console.log("Login successful", response.data);
@@ -36,14 +37,14 @@ function Login() {
       // Check role and redirect accordingly
       const userRole = response.data.user.role;
       console.log("User object:", response.data.user);
-console.log(`Detected Role: ${userRole}`);
-      console.log(`login.jsx role: ${userRole}`);
+      // console.log(`Detected Role: ${userRole}`);
+      // console.log(`login.jsx role: ${userRole}`);
       if (userRole === "superadmin") {
         navigate("/superadmin");
       }
-      else if (userRole === "client") {  
-        console.log("Navigating to /clientPage");
-        navigate("/clientPage");  
+      else if (userRole === "client") {
+        // console.log("Navigating to /clientPage");
+        navigate("/clientPage");
       }
     } catch (error) {
       console.error("Login error", error);
@@ -60,9 +61,8 @@ console.log(`Detected Role: ${userRole}`);
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
         {message && (
           <div
-            className={`mb-4 p-2 text-center rounded ${
-              isSuccess ? "bg-green-500" : "bg-red-500"
-            } text-white`}
+            className={`mb-4 p-2 text-center rounded ${isSuccess ? "bg-green-500" : "bg-red-500"
+              } text-white`}
           >
             {message}
           </div>

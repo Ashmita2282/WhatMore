@@ -3,8 +3,6 @@ const facebookController = require("../controllers/facebookController");
 const authMiddleware = require("../middleware/authMiddleware");
 const router = Router();
 
-router.get("/example", authMiddleware.authenticateUser, facebookController.exampleRoute); // ✅ Pass a valid function
-
 router.get('/',  authMiddleware.authenticateUser, facebookController.authFacebook);
 router.get('/callback',authMiddleware.authenticateUser,facebookController.authFacebookCallback);
 router.get('/page_id', authMiddleware.authenticateUser,facebookController.getFacebookPages);

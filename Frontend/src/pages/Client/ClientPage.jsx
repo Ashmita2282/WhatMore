@@ -17,37 +17,18 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 // Navigation items
 const NAVIGATION = [
-  { segment: "store-id", title: "Store ID: 123456", position: "bottom", isStatic: true },
   { segment: 'dashboard', title: 'Dashboard', icon: <DashboardIcon /> },
   { segment: 'reports', title: 'Reports', icon: <BarChartIcon /> },
   { segment: "profile", title: "Profile", icon: <AccountCircleIcon />, position: "bottom" },
   { segment: "login", title: "Log Out", icon: <ExitToAppIcon />, position: "bottom" }, // New Login Option
 ];
+
 // Theme configuration
 const demoTheme = createTheme({
   cssVariables: { colorSchemeSelector: 'data-toolpad-color-scheme' },
   colorSchemes: { light: true, dark: true },
   breakpoints: { values: { xs: 0, sm: 600, md: 600, lg: 1200, xl: 1536 } },
 });
-
-// Dashboard Content Component
-// function DashboardContent() {
-//   return (
-//     <Box sx={{ py: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-//       <Typography variant="h5">Dashboard</Typography>
-//       <Typography variant="body1">This is the dashboard page.</Typography>
-//     </Box>
-//   );
-// }
-
-// function ReportsContent() {
-//   return (
-//     <Box sx={{ py: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-//       <Typography variant="h5">Reports</Typography>
-//       <Typography variant="body1">This is the reports page.</Typography>
-//     </Box>
-//   );
-// }
 
 // Component to handle page rendering based on selected navigation
 function DemoPageContent({ pathname, count }) {
@@ -79,7 +60,7 @@ function DashboardLayoutBranding(props) {
     <AppProvider
       navigation={NAVIGATION}
       branding={{
-        logo: <img src="./img/vidscommerce.png" alt="MUI logo" className="h-8" />,
+        logo: <img src="./images/vidscommerce.png" alt="Vidscommerce logo" className="h-8" />,
         title: (
           <Typography
             variant="h5"

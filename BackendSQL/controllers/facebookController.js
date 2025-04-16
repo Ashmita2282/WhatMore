@@ -12,10 +12,6 @@ let PAGE_ID = "566036853250412"; // Store the selected Facebook Page ID
 let INSTA_ID = "17841471580291936"; // Store the Instagram Business Account ID
 let PAGE_ACCESS_TOKEN = "EAAINURMpzSUBOzLgcIcTl00IBoOUTxgOZAwTcaZBZBvXExF37UZCXhwgCA5IrEy7mDH6333R0gZCGsYpZCEKXsqeLfp5v3gv4NpIK7bz1BBM3AuC7JrbOYI6tadEzCxgTZApZC0Uhb2IJTIR9XmVo6PJqtFZCGzIXMj7eVxKrywBku8ERpcHPQQoj2ZByn6sW5WEOa"; // Store the Page Access Token
 
-const exampleRoute = (req, res) => {
-  res.send("Hello from Facebook API!");
-};
-
 const authFacebook = (req, res) => {
   console.log("auth/facebook is running");
   const url = `https://www.facebook.com/v13.0/dialog/oauth?client_id=${APP_ID}&redirect_uri=${REDIRECT_URI}&scope=email,pages_show_list,public_profile`;
@@ -384,5 +380,4 @@ module.exports = {
   getPageAccessToken,
   saveVideos,
   getVideoUrlById,
-  exampleRoute
 };
